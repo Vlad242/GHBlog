@@ -1,0 +1,3 @@
+geek_blog:
+    resource: "@GeekBlogBundle/Resources/config/routing.yml"
+    prefix:   /

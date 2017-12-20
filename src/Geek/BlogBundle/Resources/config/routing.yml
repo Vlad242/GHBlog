@@ -1,0 +1,3 @@
+geek_blog_homepage:
+    path:     /
+    defaults: { _controller: GeekBlogBundle:Default:index }
