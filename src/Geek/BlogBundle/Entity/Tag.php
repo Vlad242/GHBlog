@@ -3,11 +3,10 @@
 namespace Geek\BlogBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Tag
- *
  * @ORM\Table(name="tag")
  * @ORM\Entity(repositoryClass="Geek\BlogBundle\Repository\TagRepository")
  */
@@ -30,13 +29,18 @@ class Tag
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Geek\BlogBundle\Entity\Post", inversedBy="tags")
+     * @var  Post[]| Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Geek\BlogBundle\Entity\Post", mappedBy="tags")
      */
     private $posts;
 
+
+    public  function  __construct ()  {
+        $this->posts = new ArrayCollection();
+    }
+
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -45,8 +49,6 @@ class Tag
     }
 
     /**
-     * Set name
-     *
      * @param string $name
      *
      * @return Tag
@@ -59,8 +61,6 @@ class Tag
     }
 
     /**
-     * Get name
-     *
      * @return string
      */
     public function getName()
@@ -69,8 +69,6 @@ class Tag
     }
 
     /**
-     * Add post
-     *
      * @param Post $post
      *
      * @return Tag
@@ -83,8 +81,6 @@ class Tag
     }
 
     /**
-     * Remove pst
-     *
      * @param Post $post
      */
     public function removePost (Post $post)
@@ -92,8 +88,5 @@ class Tag
         $this->posts->removeElement($post);
     }
 
-    public  function  __construct ()  {
-        $this->posts = new ArrayCollection();
-    }
 }
 

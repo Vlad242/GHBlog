@@ -59,7 +59,9 @@ class Post
     private $theme;
 
     /**
-     * @ORM\OneToMany(targetEntity="Geek\BlogBundle\Entity\Comment", inversedBy="post")
+     *@var  Comment[]| Collection
+     *
+     * @ORM\OneToMany(targetEntity="Geek\BlogBundle\Entity\Comment", mappedBy="post")
      */
     private $comments;
 
@@ -69,8 +71,8 @@ class Post
         $this->tags = new ArrayCollection();
     }
 
-
     /**
+     *
      * @param string $content
      *
      * @return $this
@@ -218,6 +220,7 @@ class Post
     public function addComment(Comment $comment)
     {
         $this->comments[] = $comment;
+        $comment->setPost($this);
 
         return $this;
     }

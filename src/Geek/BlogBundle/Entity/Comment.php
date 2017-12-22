@@ -5,8 +5,6 @@ namespace Geek\BlogBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Comment
- *
  * @ORM\Table(name="comment")
  * @ORM\Entity(repositoryClass="Geek\BlogBundle\Repository\CommentRepository")
  */
@@ -46,8 +44,6 @@ class Comment
     private $post;
 
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -56,8 +52,6 @@ class Comment
     }
 
     /**
-     * Set Content
-     *
      * @param string $Content
      *
      * @return Comment
@@ -70,8 +64,6 @@ class Comment
     }
 
     /**
-     * Get Content
-     *
      * @return string
      */
     public function getContent()
@@ -80,8 +72,6 @@ class Comment
     }
 
     /**
-     * Set date
-     *
      * @param \DateTime $date
      *
      * @return Comment
@@ -94,8 +84,6 @@ class Comment
     }
 
     /**
-     * Get date
-     *
      * @return \DateTime
      */
     public function getDate()
@@ -104,8 +92,6 @@ class Comment
     }
 
     /**
-     * Set user
-     *
      * @param User $user
      *
      * @return Comment
@@ -118,8 +104,6 @@ class Comment
     }
 
     /**
-     * Get user
-     *
      * @return User
      */
     public function getUser()
@@ -128,8 +112,6 @@ class Comment
     }
 
     /**
-     * Set post
-     *
      * @param Post $post
      *
      * @return Comment
@@ -142,8 +124,6 @@ class Comment
     }
 
     /**
-     * Get post
-     *
      * @return Post
      */
     public function getPost()

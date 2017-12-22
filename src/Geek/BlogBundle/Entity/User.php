@@ -3,12 +3,11 @@
 namespace Geek\BlogBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
- * User
- *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="Geek\BlogBundle\Repository\UserRepository")
  */
@@ -83,14 +82,19 @@ class User implements AdvancedUserInterface
     private $comments;
 
     /**
+     * @var  Post[]| Collection
      * @ORM\OneToMany(targetEntity="Geek\BlogBundle\Entity\Post", mappedBy="user")
      * @ORM\Column(type="string")
      */
     private $posts;
 
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->posts = new ArrayCollection();
+    }
+
     /**
-     * Get id
-     *
      * @return integer
      */
     public function getId()
@@ -99,8 +103,6 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * Set name
-     *
      * @param string $name
      *
      * @return User
@@ -113,8 +115,6 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * Get name
-     *
      * @return string
      */
     public function getName()
@@ -123,8 +123,6 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * Set username
-     *
      * @param string $username
      *
      * @return User
@@ -137,8 +135,6 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * Set password
-     *
      * @param string $password
      *
      * @return User
@@ -151,8 +147,6 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * Get username
-     *
      * @return string
      */
     public function getUsername()
@@ -161,8 +155,6 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * Get password
-     *
      * @return string
      */
     public function getPassword()
@@ -266,8 +258,6 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * Set role
-     *
      * @param string $role
      *
      * @return User
@@ -280,8 +270,6 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * Get role
-     *
      * @return string
      */
     public function getRole()
@@ -306,8 +294,6 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * Add comment
-     *
      * @param Comment $comment
      *
      * @return User
@@ -315,13 +301,12 @@ class User implements AdvancedUserInterface
     public function addComment(Comment $comment)
     {
         $this->comments[] = $comment;
+        $comment->setUser($this);
 
         return $this;
     }
 
     /**
-     * Remove comment
-     *
      * @param Comment $comment
      */
     public function removeComment(Comment $comment)
@@ -330,8 +315,6 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * Add post
-     *
      * @param Post $post
      *
      * @return User
@@ -339,28 +322,16 @@ class User implements AdvancedUserInterface
     public function addPost(Post $post)
     {
         $this->posts[] = $post;
-
+        $post->setUser($this);
         return $this;
     }
 
     /**
-     * Remove post
-     *
      * @param Post $post
      */
     public function removePost (Post $post)
     {
         $this->posts->removeElement($post);
     }
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->comments = new ArrayCollection();
-        $this->posts = new ArrayCollection();
-    }
-
 }
 

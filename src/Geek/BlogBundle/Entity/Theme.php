@@ -3,11 +3,10 @@
 namespace Geek\BlogBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Theme
- *
  * @ORM\Table(name="theme")
  * @ORM\Entity(repositoryClass="Geek\BlogBundle\Repository\ThemeRepository")
  */
@@ -30,9 +29,14 @@ class Theme
     private $name;
 
     /**
+     * @var  Post[]| Collection
      * @ORM\OneToMany(targetEntity="Geek\BlogBundle\Entity\Post", mappedBy="theme")
      */
     private $posts;
+
+    public  function  __construct ()  {
+        $this->posts = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -91,10 +95,6 @@ class Theme
     {
         $this->posts->removeElement($post);
         $post->setTheme(null);
-    }
-
-    public  function  __construct ()  {
-        $this->posts = new ArrayCollection();
     }
 }
 
