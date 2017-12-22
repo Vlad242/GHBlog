@@ -2,8 +2,14 @@
 
 namespace Geek\BlogBundle\Controller;
 
+use Geek\BlogBundle\Entity\User;
+use Geek\BlogBundle\Form\NewUserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class DefaultController extends Controller
 {
@@ -14,9 +20,8 @@ class DefaultController extends Controller
      */
     public function indexAction(UserInterface $user)
     {
-        // var_dump($user->getRoles());
         $userRole = $user->getRoles();
-        if ($userRole[0] == 'ROLE_ADMIN'){
+        if ($userRole[0] === 'ROLE_ADMIN'){
             return $this->redirectToRoute('admin_room');
         }else{
             return $this->redirectToRoute('user_room');
@@ -56,22 +61,24 @@ class DefaultController extends Controller
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \LogicException
      */
     public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         $user= new User();
-        $form = $this->createForm(User_newType::class, $user);
+        $form = $this->createForm(NewUserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
-            $user->setRole("ROLE_USER");
+            $user->setRole('ROLE_USER');
             $user->setLocked(false);
             $user->setEnabled(true);
-            $this->getDoctrine()->getManager()->persist($user);
-            $this->getDoctrine()->getManager()->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
             return $this->redirectToRoute('login');
         }
 
