@@ -6,41 +6,37 @@ use Geek\BlogBundle\Entity\User;
 use Geek\BlogBundle\Form\NewUserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\BrowserKit\Request;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
-     * @param UserInterface $user
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function indexAction(UserInterface $user)
+    public function indexAction()
     {
-        $userRole = $user->getRoles();
-        if ($userRole[0] === 'ROLE_ADMIN'){
+        if ($this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('admin_room');
-        }else{
-            return $this->redirectToRoute('user_room');
         }
+
+        return $this->redirectToRoute('user_room');
     }
 
     /**
      * @Route("/login", name="login")
-     * @param AuthenticationUtils $authenticationUtils
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function loginAction(AuthenticationUtils $authenticationUtils)
+    public function loginAction()
     {
+        $authenticationUtils = $this->get('security.authentication_utils');
+
         $error = $authenticationUtils->getLastAuthenticationError();
 
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render(
-            ':Default:login.html.twig',
+            'login.html.twig',
             array(
                 'last_username' => $lastUsername,
                 'error'         => $error,
@@ -59,21 +55,21 @@ class DefaultController extends Controller
     /**
      * @Route("/register", name="register")
      * @param Request $request
-     * @param UserPasswordEncoderInterface $passwordEncoder
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \LogicException
      */
-    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function registerAction(Request $request)
     {
-        $user= new User();
+        $user = new User();
+        $passwordEncoder = $this->get('security.encoder_factory')->getEncoder($user);
         $form = $this->createForm(NewUserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+            $password = $passwordEncoder->encodePassword($user->getPlainPassword(), $user->getSalt());
             $user->setPassword($password);
-            $user->setRole('ROLE_USER');
+            $user->setRoles('ROLE_USER');
             $user->setLocked(false);
             $user->setEnabled(true);
             $em = $this->getDoctrine()->getManager();
@@ -82,7 +78,7 @@ class DefaultController extends Controller
             return $this->redirectToRoute('login');
         }
 
-        return $this->render(':User:new_user.html.twig', [
+        return $this->render('@GeekBlog/User/NewUser.html.twig', [
             'form' => $form->createView()
         ]);
     }

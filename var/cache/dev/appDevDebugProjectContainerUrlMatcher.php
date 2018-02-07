@@ -104,14 +104,47 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         }
 
-        // geek_blog_homepage
+        // admin_room
+        if ('/admin/room' === $pathinfo) {
+            return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\AdminController::indexAction',  '_route' => 'admin_room',);
+        }
+
+        // homepage
         if ('' === $trimmedPathinfo) {
-            $ret = array (  '_controller' => 'Geek\\BlogBundle\\Controller\\DefaultController::indexAction',  '_route' => 'geek_blog_homepage',);
+            $ret = array (  '_controller' => 'Geek\\BlogBundle\\Controller\\DefaultController::indexAction',  '_route' => 'homepage',);
             if (substr($pathinfo, -1) !== '/') {
-                return array_replace($ret, $this->redirect($rawPathinfo.'/', 'geek_blog_homepage'));
+                return array_replace($ret, $this->redirect($rawPathinfo.'/', 'homepage'));
             }
 
             return $ret;
+        }
+
+        if (0 === strpos($pathinfo, '/login')) {
+            // login
+            if ('/login' === $pathinfo) {
+                return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\DefaultController::loginAction',  '_route' => 'login',);
+            }
+
+            // login_check
+            if ('/login_check' === $pathinfo) {
+                return array('_route' => 'login_check');
+            }
+
+        }
+
+        // logout
+        if ('/logout' === $pathinfo) {
+            return array('_route' => 'logout');
+        }
+
+        // register
+        if ('/register' === $pathinfo) {
+            return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\DefaultController::registerAction',  '_route' => 'register',);
+        }
+
+        // user_room
+        if ('/user/room' === $pathinfo) {
+            return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\UserController::indexAction',  '_route' => 'user_room',);
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();

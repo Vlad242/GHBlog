@@ -1,6 +1,6 @@
 geek_blog:
-    resource: "@GeekBlogBundle/Resources/config/routing.yml"
-    prefix:   /
+    resource: "@GeekBlogBundle/Controller/"
+    type: annotation
 
 login_check:
     path: /login_check

@@ -39,8 +39,6 @@ class Theme
     }
 
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -49,8 +47,6 @@ class Theme
     }
 
     /**
-     * Set name
-     *
      * @param string $name
      *
      * @return Theme
@@ -63,8 +59,6 @@ class Theme
     }
 
     /**
-     * Get name
-     *
      * @return string
      */
     public function getName()
@@ -73,8 +67,6 @@ class Theme
     }
 
     /**
-     * Add post
-     *
      * @param Post $post
      *
      * @return Theme
@@ -87,8 +79,6 @@ class Theme
     }
 
     /**
-     * Remove pst
-     *
      * @param Post $post
      */
     public function removePost (Post $post)

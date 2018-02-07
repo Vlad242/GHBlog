@@ -1,9 +1,7 @@
-# To get started with security, check out the documentation:
-# https://symfony.com/doc/current/security.html
 security:
 
     encoders:
-        AppBundle\Entity\User:
+        Geek\BlogBundle\Entity\User:
             algorithm: bcrypt
 
     role_hierarchy:
@@ -12,7 +10,7 @@ security:
     providers:
         our_db_provider:
             entity:
-                class: AppBundle:User
+                class:  GeekBlogBundle:User
                 property: username
     firewalls:
         dev:
@@ -22,6 +20,7 @@ security:
         unsec:
             pattern: ^/(login|register)$
             anonymous: ~
+            logout_on_user_change: true
 
         main:
             anonymous: ~
@@ -35,6 +34,7 @@ security:
                 default_target_path: /
             logout:
                 path: logout
+            logout_on_user_change: true
 
     access_control:
           - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}

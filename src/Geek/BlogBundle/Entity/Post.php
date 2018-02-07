@@ -72,7 +72,14 @@ class Post
     }
 
     /**
-     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * @param string $content
      *
      * @return $this
@@ -105,8 +112,6 @@ class Post
     }
 
     /**
-     * Get date
-     *
      * @return \DateTime
      */
     public function getDate()
@@ -115,8 +120,6 @@ class Post
     }
 
     /**
-     * Set title
-     *
      * @param string $title
      *
      * @return $this
@@ -129,8 +132,6 @@ class Post
     }
 
     /**
-     * Get title
-     *
      * @return string
      */
     public function getTitle()
@@ -139,8 +140,6 @@ class Post
     }
 
     /**
-     * Set user
-     *
      * @param User $user
      *
      * @return $this
@@ -153,8 +152,6 @@ class Post
     }
 
     /**
-     * Get user
-     *
      * @return User
      */
     public function getUser()
@@ -163,8 +160,6 @@ class Post
     }
 
     /**
-     * Set theme
-     *
      * @param Theme $theme
      *
      * @return $this
@@ -177,8 +172,6 @@ class Post
     }
 
     /**
-     * Get theme
-     *
      * @return Theme
      */
     public function getTheme()
@@ -187,8 +180,6 @@ class Post
     }
 
     /**
-     * Add tag
-     *
      * @param Tag $tag
      *
      * @return $this
@@ -201,8 +192,6 @@ class Post
     }
 
     /**
-     * Remove tags
-     *
      * @param Tag $tag
      */
     public function removeTag (Tag $tag)
@@ -211,8 +200,6 @@ class Post
     }
 
     /**
-     * Add comment
-     *
      * @param Comment $comment
      *
      * @return $this
@@ -226,8 +213,6 @@ class Post
     }
 
     /**
-     * Remove comment
-     *
      * @param Comment $comment
      * @internal param Post $post
      */

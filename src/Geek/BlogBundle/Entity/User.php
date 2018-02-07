@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="user")
@@ -57,39 +58,41 @@ class User implements AdvancedUserInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string", options={"default" = "ROLE_USER"})
+     * @ORM\Column(type="string")
      */
-    private $role;
+    private $roles;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(type="boolean", options={"default" = false})
+     * @ORM\Column(type="boolean")
      */
     protected $locked;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(type="boolean", nullable=true, options={"default" = true})
+     * @ORM\Column(type="boolean", nullable=true)
      */
     protected $enabled;
 
     /**
+     * @var  Comment[]| Collection
      * @ORM\OneToMany(targetEntity="Geek\BlogBundle\Entity\Comment", mappedBy="user")
-     * @ORM\Column(type="string")
      */
     private $comments;
 
     /**
      * @var  Post[]| Collection
      * @ORM\OneToMany(targetEntity="Geek\BlogBundle\Entity\Post", mappedBy="user")
-     * @ORM\Column(type="string")
      */
     private $posts;
 
     public function __construct()
     {
+        $this->setRoles('ROLE_USER');
+        $this->setLocked(false);
+        $this->setEnabled(true);
         $this->comments = new ArrayCollection();
         $this->posts = new ArrayCollection();
     }
@@ -245,7 +248,7 @@ class User implements AdvancedUserInterface
     public function getRoles()
     {
         return [
-            $this->getRole()
+            $this->roles
         ];
     }
 
@@ -258,23 +261,15 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * @param string $role
+     * @param string $roles
      *
      * @return User
      */
-    public function setRole($role)
+    public function setRoles($roles)
     {
-        $this->role = $role;
+        $this->roles = $roles;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRole()
-    {
-        return $this->role;
     }
 
     /**
@@ -332,6 +327,18 @@ class User implements AdvancedUserInterface
     public function removePost (Post $post)
     {
         $this->posts->removeElement($post);
+    }
+
+    /**
+     * @param string $role
+     *
+     * @return User
+     */
+    public function addRole($role)
+    {
+        $this->roles[] = $role;
+
+        return $this;
     }
 }
 

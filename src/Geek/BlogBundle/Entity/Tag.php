@@ -31,7 +31,7 @@ class Tag
     /**
      * @var  Post[]| Collection
      *
-     * @ORM\ManyToMany(targetEntity="Geek\BlogBundle\Entity\Post", mappedBy="tags")
+     * @ORM\ManyToMany(targetEntity="Geek\BlogBundle\Entity\Post", inversedBy="tags")
      */
     private $posts;
 
