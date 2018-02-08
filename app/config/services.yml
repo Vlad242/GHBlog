@@ -28,3 +28,7 @@ services:
             arguments:
                 - "@doctrine"
                 - "@security.password_encoder"
+
+   #  Geek\BlogBundle\DataFixtures\ORM\:
+       #     resource: '../../src/Geek/BlogBundle/DataFixtures/ORM'
+       #     tags: ['doctrine.fixture.orm']

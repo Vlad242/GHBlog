@@ -27,7 +27,7 @@ class CreateUserCommand extends Command
 
     protected function configure()
     {
-        $this->setName('app:create_user');
+        $this->setName('create_user');
     }
 
     /**

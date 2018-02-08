@@ -2,10 +2,10 @@
 
 namespace Geek\BlogBundle\DataFixtures\ORM;
 
-use Geek\BlogBundle\Entity\User;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Geek\BlogBundle\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UsersFixtures extends Fixture
 {
@@ -18,15 +18,17 @@ class UsersFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $user = new User();
-        $user->setUsername('Superadmin');
+        for ($i = 1; $i < 11; $i++) {
+            $user = new User();
+            $password = $this->encoder->encodePassword($user, 'user'.$i);
+            $user->setUsername('User'.$i)
+                ->setPassword($password)
+                ->setName('User'.$i);
 
-        $password = $this->encoder->encodePassword($user, '123456');
-        $user->setPassword($password);
-        $user->setRoles('ROLE_ADMIN');
-        $user->setName('Superadmin');
-        $manager->persist($user);
+            $manager->persist($user);
+
+            $this->setReference('user'.$i, $user);
+        }
         $manager->flush();
-
     }
 }

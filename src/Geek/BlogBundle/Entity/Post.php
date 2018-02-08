@@ -186,6 +186,7 @@ class Post
      */
     public function addTag(Tag $tag)
     {
+        $tag->addPost($this);
         $this->tags[] = $tag;
 
         return $this;
