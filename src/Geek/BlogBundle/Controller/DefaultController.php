@@ -12,10 +12,17 @@ class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function indexAction()
     {
+        return $this->render('@GeekBlog/Default/homepage.html.twig');
+    }
+
+    /**
+     * @Route("/redirect", name="redirect")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function redirectAction(){
         if ($this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('admin_room');
         }
@@ -36,7 +43,7 @@ class DefaultController extends Controller
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render(
-            'login.html.twig',
+            '@GeekBlog/Default/login.html.twig',
             array(
                 'last_username' => $lastUsername,
                 'error'         => $error,

@@ -1,0 +1,16 @@
+{% extends '@GeekBlog/Default/base.html.twig' %}
+{% block menu %}
+<ul>
+    <li class="current first">
+        <a href="{{ path('homepage') }}">Home</a>
+    </li>
+    <li class="current_ancestor">
+        <a href="{{ path('login') }}">Login</a>
+        <ul class="menu_level_1">
+            <li class="current first last">
+                <a href="{{ path('list') }}">List</a>
+            </li>
+        </ul>
+    </li>
+</ul>
+{% endblock %}
