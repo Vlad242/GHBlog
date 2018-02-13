@@ -1,0 +1,7 @@
+<div class="well">
+    <h3 align="center">Tags:</h3><br>
+    {% for tag in tags %}
+        <a class="btn-xs btn-primary" type="button" href="{{ path("login") }}" style="margin: 1px">
+            <span class="glyphicon glyphicon-tag"></span> {{ tag.name }} </a>
+    {% endfor %}
+</div>

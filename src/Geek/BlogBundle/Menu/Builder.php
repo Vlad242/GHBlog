@@ -20,9 +20,10 @@ class Builder
     {
         $menu = $this->factory->createItem('root');
 
-        $menu->addChild('Home', array('route' => 'homepage'));
-        $menu->addChild('Login', array('route' => 'login'));
-        $menu->addChild('List', array('route' => 'list'));
+        $menu->addChild('Homepage', array('route' => 'homepage'));
+        $menu->addChild('Posts', array('route' => 'postlist'));
+        $menu->addChild('Themes', array('route' => 'postlist'));
+        $menu->addChild('Search', array('route' => 'taglist'));
         // ... add more children
 
         return $menu;

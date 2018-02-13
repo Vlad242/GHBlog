@@ -5,6 +5,7 @@ namespace Geek\BlogBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends Controller
 {
@@ -14,9 +15,9 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/list", name="list")
+     * @Route("/postlist", name="postlist")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function listAction(Request $request)
     {
@@ -30,7 +31,6 @@ class PostController extends Controller
             5
         );
 
-        // parameters to template
         return $this->render('@GeekBlog/Post/postList.html.twig', array('pagination' => $pagination));
     }
 }

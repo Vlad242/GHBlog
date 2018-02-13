@@ -567,6 +567,9 @@
     <service id="Geek\BlogBundle\Controller\PostController" class="Geek\BlogBundle\Controller\PostController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
     </service>
+    <service id="Geek\BlogBundle\Controller\TagController" class="Geek\BlogBundle\Controller\TagController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+    </service>
     <service id="Geek\BlogBundle\Controller\UserController" class="Geek\BlogBundle\Controller\UserController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
     </service>
@@ -622,7 +625,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-50"/>
-      <argument type="service" id="service_locator.re5bh68"/>
+      <argument type="service" id="service_locator.dfgxadu"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-100"/>
@@ -4188,6 +4191,8 @@
     <service id="abstract.instanceof.Geek\BlogBundle\Controller\DefaultController" class="Geek\BlogBundle\Controller\DefaultController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.Geek\BlogBundle\Controller\PostController" class="Geek\BlogBundle\Controller\PostController" public="true" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.Geek\BlogBundle\Controller\PostController" class="Geek\BlogBundle\Controller\PostController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.Geek\BlogBundle\Controller\TagController" class="Geek\BlogBundle\Controller\TagController" public="true" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.Geek\BlogBundle\Controller\TagController" class="Geek\BlogBundle\Controller\TagController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.Geek\BlogBundle\Controller\UserController" class="Geek\BlogBundle\Controller\UserController" public="true" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.Geek\BlogBundle\Controller\UserController" class="Geek\BlogBundle\Controller\UserController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Doctrine\Bundle\FixturesBundle\ORMFixtureInterface.0.Geek\BlogBundle\DataFixtures\ORM\CommentsFixtures" class="Geek\BlogBundle\DataFixtures\ORM\CommentsFixtures" public="false" autowire="true" abstract="true"/>
@@ -4216,11 +4221,15 @@
       <tag name="container.service_locator"/>
       <argument type="collection"/>
     </service>
+    <service id="service_locator.httlyab" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection"/>
+    </service>
     <service id="service_locator.cxbs7ie" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection"/>
     </service>
-    <service id="service_locator.re5bh68" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.dfgxadu" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection"/>
     </service>

@@ -129,30 +129,32 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\DefaultController::registerAction',  '_route' => 'register',);
         }
 
-        if (0 === strpos($pathinfo, '/l')) {
-            if (0 === strpos($pathinfo, '/login')) {
-                // login
-                if ('/login' === $pathinfo) {
-                    return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\DefaultController::loginAction',  '_route' => 'login',);
-                }
-
-                // login_check
-                if ('/login_check' === $pathinfo) {
-                    return array('_route' => 'login_check');
-                }
-
+        if (0 === strpos($pathinfo, '/login')) {
+            // login
+            if ('/login' === $pathinfo) {
+                return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\DefaultController::loginAction',  '_route' => 'login',);
             }
 
-            // logout
-            if ('/logout' === $pathinfo) {
-                return array('_route' => 'logout');
+            // login_check
+            if ('/login_check' === $pathinfo) {
+                return array('_route' => 'login_check');
             }
 
-            // list
-            if ('/list' === $pathinfo) {
-                return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::listAction',  '_route' => 'list',);
-            }
+        }
 
+        // logout
+        if ('/logout' === $pathinfo) {
+            return array('_route' => 'logout');
+        }
+
+        // postlist
+        if ('/postlist' === $pathinfo) {
+            return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::listAction',  '_route' => 'postlist',);
+        }
+
+        // taglist
+        if ('/Taglist' === $pathinfo) {
+            return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\TagController::listAction',  '_route' => 'taglist',);
         }
 
         // user_room

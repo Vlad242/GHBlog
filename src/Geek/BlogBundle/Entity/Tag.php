@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="tag")
  * @ORM\Entity(repositoryClass="Geek\BlogBundle\Repository\TagRepository")
  */
 class Tag

@@ -54,9 +54,9 @@ class Post
     private $tags;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Geek\BlogBundle\Entity\Theme", inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity="Category.php", inversedBy="posts")
      */
-    private $theme;
+    private $category;
 
     /**
      *@var  Comment[]| Collection
@@ -160,23 +160,23 @@ class Post
     }
 
     /**
-     * @param Theme $theme
+     * @param Category $category
      *
      * @return $this
      */
-    public function setTheme(Theme $theme = null)
+    public function setCategory(Category $category = null)
     {
-        $this->theme = $theme;
+        $this->category = $category;
 
         return $this;
     }
 
     /**
-     * @return Theme
+     * @return Category
      */
-    public function getTheme()
+    public function getCategory()
     {
-        return $this->theme;
+        return $this->category;
     }
 
     /**
@@ -222,5 +222,12 @@ class Post
         $this->comments->removeElement($comment);
     }
 
+    /**
+     * @return ArrayCollection|Collection|Tag[]
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
 }
 
