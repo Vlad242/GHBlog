@@ -11,6 +11,8 @@ parameters:
 framework:
     #esi: ~
     #translator: { fallbacks: ['%locale%'] }
+    templating:
+        engines: ['twig']
     secret: '%secret%'
     router:
         resource: '%kernel.project_dir%/app/config/routing.yml'
@@ -63,12 +65,10 @@ swiftmailer:
 knp_menu:
     twig:
         template: "@GeekBlog/Menu/menu.html.twig"
-    templating: false
+    templating: true
     default_renderer: twig
 
 knp_paginator:
     page_range: 5
     default_options:
         page_name: page
-    template:
-        pagination: '@GeekBlog/Default/pagination.html.twig'
