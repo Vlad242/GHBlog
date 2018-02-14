@@ -4,6 +4,7 @@ namespace Geek\BlogBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Geek\BlogBundle\Entity\Category;
+use Geek\BlogBundle\Entity\Post;
 use Geek\BlogBundle\Entity\Tag;
 
 class PostRepository extends EntityRepository
@@ -14,7 +15,7 @@ class PostRepository extends EntityRepository
     public function findAllQuery()
     {
         return $this->createQueryBuilder('p')
-            ->orderBy('p.date', 'ASC')
+            ->orderBy('p.date', 'DESC')
             ->getQuery()
             ;
     }
@@ -45,5 +46,17 @@ class PostRepository extends EntityRepository
             ->setParameter('category', $category)
             ->getQuery()
             ;
+    }
+
+    /**
+     * @param Post $id
+     * @return Post[]
+     */
+    public function findById($id)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()->getResult();
     }
 }

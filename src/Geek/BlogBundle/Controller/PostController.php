@@ -20,6 +20,9 @@ class PostController extends Controller
      */
     public function listAction(Request $request)
     {
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Home", $this->get("router")->generate("homepage"));
+
         $em = $this->getDoctrine()->getManager();
         $postrepository = $em->getRepository('GeekBlogBundle:Post');
 
@@ -45,6 +48,8 @@ class PostController extends Controller
         if (!$tag) {
             throw new NotFoundHttpException("Страница не найдена");
         }
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Home", $this->get("router")->generate("homepage"));
 
         $em = $this->getDoctrine()->getManager();
         $postrepository = $em->getRepository('GeekBlogBundle:Post');
@@ -81,5 +86,28 @@ class PostController extends Controller
         );
 
         return $this->render('@GeekBlog/Post/postByCategory.html.twig', array('pagination' => $pagination));
+    }
+
+    /**
+     * @Route("/post/{id}", name="viewPost")
+     * @param $id
+     * @return Response
+     */
+    public function viewPostAction($id)
+    {
+        if (!$id) {
+            throw new NotFoundHttpException("Страница не найдена");
+        }
+
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Home", $this->get("router")->generate("homepage"));
+        $breadcrumbs->addRouteItem("Post №".$id, "viewPost", [
+            'id' => $id,
+        ]);
+
+        $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository('GeekBlogBundle:Post')->find($id);
+        return $this->render('@GeekBlog/Post/viewPost.html.twig', ['post' => $post]);
+
     }
 }

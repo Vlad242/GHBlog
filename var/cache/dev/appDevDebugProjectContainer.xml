@@ -18,6 +18,7 @@
       <parameter key="SensioFrameworkExtraBundle">Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle</parameter>
       <parameter key="KnpMenuBundle">Knp\Bundle\MenuBundle\KnpMenuBundle</parameter>
       <parameter key="KnpPaginatorBundle">Knp\Bundle\PaginatorBundle\KnpPaginatorBundle</parameter>
+      <parameter key="WhiteOctoberBreadcrumbsBundle">WhiteOctober\BreadcrumbsBundle\WhiteOctoberBreadcrumbsBundle</parameter>
       <parameter key="GeekBlogBundle">Geek\BlogBundle\GeekBlogBundle</parameter>
       <parameter key="DebugBundle">Symfony\Bundle\DebugBundle\DebugBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
@@ -71,6 +72,11 @@
         <parameter key="parent">null</parameter>
         <parameter key="path">/home/vlad/Work/ghBlog/vendor/knplabs/knp-paginator-bundle</parameter>
         <parameter key="namespace">Knp\Bundle\PaginatorBundle</parameter>
+      </parameter>
+      <parameter key="WhiteOctoberBreadcrumbsBundle" type="collection">
+        <parameter key="parent">null</parameter>
+        <parameter key="path">/home/vlad/Work/ghBlog/vendor/whiteoctober/breadcrumbs-bundle/WhiteOctober/BreadcrumbsBundle</parameter>
+        <parameter key="namespace">WhiteOctober\BreadcrumbsBundle</parameter>
       </parameter>
       <parameter key="GeekBlogBundle" type="collection">
         <parameter key="parent">null</parameter>
@@ -376,6 +382,17 @@
     <parameter key="knp_paginator.template.filtration">@KnpPaginator/Pagination/filtration.html.twig</parameter>
     <parameter key="knp_paginator.template.sortable">@KnpPaginator/Pagination/sortable_link.html.twig</parameter>
     <parameter key="knp_paginator.page_range">5</parameter>
+    <parameter key="white_october_breadcrumbs.options" type="collection">
+      <parameter key="separator">/</parameter>
+      <parameter key="separatorClass">separator</parameter>
+      <parameter key="listId">wo-breadcrumbs</parameter>
+      <parameter key="listClass">breadcrumb</parameter>
+      <parameter key="itemClass"></parameter>
+      <parameter key="linkRel"></parameter>
+      <parameter key="locale">null</parameter>
+      <parameter key="translation_domain">null</parameter>
+      <parameter key="viewTemplate">WhiteOctoberBreadcrumbsBundle::microdata.html.twig</parameter>
+    </parameter>
     <parameter key="web_profiler.debug_toolbar.position">bottom</parameter>
     <parameter key="web_profiler.debug_toolbar.intercept_redirects">false</parameter>
     <parameter key="web_profiler.debug_toolbar.mode">2</parameter>
@@ -564,6 +581,9 @@
     <service id="Geek\BlogBundle\Controller\CategoryController" class="Geek\BlogBundle\Controller\CategoryController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
     </service>
+    <service id="Geek\BlogBundle\Controller\CommentController" class="Geek\BlogBundle\Controller\CommentController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+    </service>
     <service id="Geek\BlogBundle\Controller\DefaultController" class="Geek\BlogBundle\Controller\DefaultController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
     </service>
@@ -594,6 +614,9 @@
     </service>
     <service id="Geek\BlogBundle\DependencyInjection\Configuration" class="Geek\BlogBundle\DependencyInjection\Configuration" public="false" autowire="true" autoconfigure="true"/>
     <service id="Geek\BlogBundle\DependencyInjection\GeekBlogExtension" class="Geek\BlogBundle\DependencyInjection\GeekBlogExtension" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Geek\BlogBundle\Form\NewCommentType" class="Geek\BlogBundle\Form\NewCommentType" public="false" autowire="true" autoconfigure="true">
+      <tag name="form.type"/>
+    </service>
     <service id="Geek\BlogBundle\Form\NewUserType" class="Geek\BlogBundle\Form\NewUserType" public="false" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
@@ -861,6 +884,7 @@
         <argument>Symfony\Bridge\Doctrine\Form\Type</argument>
       </argument>
       <argument type="collection">
+        <argument>Geek\BlogBundle\Form\NewCommentType</argument>
         <argument>Geek\BlogBundle\Form\NewUserType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\FormType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\ChoiceType</argument>
@@ -1073,7 +1097,7 @@
       <argument type="service" id="form.resolved_type_factory"/>
     </service>
     <service id="form.extension" class="Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension" public="false">
-      <argument type="service" id="service_locator.p7mbque"/>
+      <argument type="service" id="service_locator.echares"/>
       <argument type="collection">
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="iterator">
           <argument type="service" id="form.type_extension.form.http_foundation"/>
@@ -2931,6 +2955,9 @@
         <argument type="service" id="knp_paginator.twig.extension.pagination"/>
       </call>
       <call method="addExtension">
+        <argument type="service" id="white_october_breadcrumbs.twig"/>
+      </call>
+      <call method="addExtension">
         <argument type="service" id="twig.extension.dump"/>
       </call>
       <call method="addExtension">
@@ -3041,6 +3068,14 @@
       <call method="addPath">
         <argument>/home/vlad/Work/ghBlog/vendor/knplabs/knp-paginator-bundle/Resources/views</argument>
         <argument>!KnpPaginator</argument>
+      </call>
+      <call method="addPath">
+        <argument>/home/vlad/Work/ghBlog/vendor/whiteoctober/breadcrumbs-bundle/WhiteOctober/BreadcrumbsBundle/Resources/views</argument>
+        <argument>WhiteOctoberBreadcrumbs</argument>
+      </call>
+      <call method="addPath">
+        <argument>/home/vlad/Work/ghBlog/vendor/whiteoctober/breadcrumbs-bundle/WhiteOctober/BreadcrumbsBundle/Resources/views</argument>
+        <argument>!WhiteOctoberBreadcrumbs</argument>
       </call>
       <call method="addPath">
         <argument>/home/vlad/Work/ghBlog/src/Geek/BlogBundle/Resources/views</argument>
@@ -3233,6 +3268,14 @@
       <call method="addPath">
         <argument>/home/vlad/Work/ghBlog/vendor/knplabs/knp-paginator-bundle/Resources/views</argument>
         <argument>!KnpPaginator</argument>
+      </call>
+      <call method="addPath">
+        <argument>/home/vlad/Work/ghBlog/vendor/whiteoctober/breadcrumbs-bundle/WhiteOctober/BreadcrumbsBundle/Resources/views</argument>
+        <argument>WhiteOctoberBreadcrumbs</argument>
+      </call>
+      <call method="addPath">
+        <argument>/home/vlad/Work/ghBlog/vendor/whiteoctober/breadcrumbs-bundle/WhiteOctober/BreadcrumbsBundle/Resources/views</argument>
+        <argument>!WhiteOctoberBreadcrumbs</argument>
       </call>
       <call method="addPath">
         <argument>/home/vlad/Work/ghBlog/src/Geek/BlogBundle/Resources/views</argument>
@@ -4035,6 +4078,21 @@
       <tag name="twig.extension"/>
       <argument type="service" id="knp_paginator.helper.processor"/>
     </service>
+    <service id="white_october_breadcrumbs" class="WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs" public="true">
+      <call method="setRouter">
+        <argument type="service" id="router.default"/>
+      </call>
+    </service>
+    <service id="white_october_breadcrumbs.helper" class="WhiteOctober\BreadcrumbsBundle\Templating\Helper\BreadcrumbsHelper" public="true">
+      <tag name="templating.helper" alias="breadcrumbs"/>
+      <argument type="service" id="templating.engine.twig"/>
+      <argument type="service" id="white_october_breadcrumbs"/>
+      <argument>%white_october_breadcrumbs.options%</argument>
+    </service>
+    <service id="white_october_breadcrumbs.twig" class="WhiteOctober\BreadcrumbsBundle\Twig\Extension\BreadcrumbsExtension" public="true">
+      <tag name="twig.extension"/>
+      <argument type="service" id="service_container"/>
+    </service>
     <service id="twig.extension.dump" class="Symfony\Bridge\Twig\Extension\DumpExtension" public="false">
       <tag name="twig.extension"/>
       <argument type="service" id="var_dumper.cloner"/>
@@ -4192,6 +4250,8 @@
     <service id="abstract.instanceof.Geek\BlogBundle\Controller\AdminController" class="Geek\BlogBundle\Controller\AdminController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.Geek\BlogBundle\Controller\CategoryController" class="Geek\BlogBundle\Controller\CategoryController" public="true" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.Geek\BlogBundle\Controller\CategoryController" class="Geek\BlogBundle\Controller\CategoryController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.Geek\BlogBundle\Controller\CommentController" class="Geek\BlogBundle\Controller\CommentController" public="true" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.Geek\BlogBundle\Controller\CommentController" class="Geek\BlogBundle\Controller\CommentController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.Geek\BlogBundle\Controller\DefaultController" class="Geek\BlogBundle\Controller\DefaultController" public="true" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.Geek\BlogBundle\Controller\DefaultController" class="Geek\BlogBundle\Controller\DefaultController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.Geek\BlogBundle\Controller\PostController" class="Geek\BlogBundle\Controller\PostController" public="true" autowire="true" abstract="true"/>
@@ -4210,6 +4270,8 @@
     <service id="abstract.instanceof.Geek\BlogBundle\DataFixtures\ORM\TagsFixtures" class="Geek\BlogBundle\DataFixtures\ORM\TagsFixtures" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Doctrine\Bundle\FixturesBundle\ORMFixtureInterface.0.Geek\BlogBundle\DataFixtures\ORM\UsersFixtures" class="Geek\BlogBundle\DataFixtures\ORM\UsersFixtures" public="false" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.Geek\BlogBundle\DataFixtures\ORM\UsersFixtures" class="Geek\BlogBundle\DataFixtures\ORM\UsersFixtures" public="false" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Symfony\Component\Form\FormTypeInterface.0.Geek\BlogBundle\Form\NewCommentType" class="Geek\BlogBundle\Form\NewCommentType" public="false" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.Geek\BlogBundle\Form\NewCommentType" class="Geek\BlogBundle\Form\NewCommentType" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Component\Form\FormTypeInterface.0.Geek\BlogBundle\Form\NewUserType" class="Geek\BlogBundle\Form\NewUserType" public="false" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.Geek\BlogBundle\Form\NewUserType" class="Geek\BlogBundle\Form\NewUserType" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Component\Console\Command\Command.0.create_user.command" class="Geek\BlogBundle\Command\CreateUserCommand" public="false" autowire="true" abstract="true"/>
@@ -4353,9 +4415,10 @@
         <argument key="inline" type="service" id="fragment.renderer.inline"/>
       </argument>
     </service>
-    <service id="service_locator.p7mbque" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.echares" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="Geek\BlogBundle\Form\NewCommentType" type="service" id="Geek\BlogBundle\Form\NewCommentType"/>
         <argument key="Geek\BlogBundle\Form\NewUserType" type="service" id="Geek\BlogBundle\Form\NewUserType"/>
         <argument key="Symfony\Bridge\Doctrine\Form\Type\EntityType" type="service" id="form.type.entity"/>
         <argument key="Symfony\Component\Form\Extension\Core\Type\ChoiceType" type="service" id="form.type.choice"/>

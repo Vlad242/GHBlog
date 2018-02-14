@@ -178,6 +178,11 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                 return $ret;
             }
 
+            // viewPost
+            if (preg_match('#^/post/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'viewPost')), array (  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::viewPostAction',));
+            }
+
         }
 
         // taglist

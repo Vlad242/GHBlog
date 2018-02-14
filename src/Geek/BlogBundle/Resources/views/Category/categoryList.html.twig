@@ -4,8 +4,8 @@
         <h3 align="center">Categories:</h3><br>
         {% for category in categories %}
             <div class="well" align="center">
-                <a href="{{ path("postByCategory", {'category' : category.getId })}}" style="margin: 1px">
-                    <span class="glyphicon glyphicon-check"></span> {{ category.getName }} </a>
+                <a href="{{ path("postByCategory", {'category' : category.getId() })}}" style="margin: 1px">
+                    <span class="glyphicon glyphicon-check"></span> {{ category.getName() }} </a>
             </div>
           {% endfor %}
     </div>

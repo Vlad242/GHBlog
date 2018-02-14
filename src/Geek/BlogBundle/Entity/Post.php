@@ -5,6 +5,7 @@ namespace Geek\BlogBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Tests\Fixtures\ToString;
 
 /**
  * @ORM\Entity(repositoryClass="Geek\BlogBundle\Repository\PostRepository")
@@ -228,6 +229,14 @@ class Post
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * @return ArrayCollection|Collection|Comment[]
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }
 
