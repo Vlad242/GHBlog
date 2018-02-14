@@ -561,6 +561,9 @@
     <service id="Geek\BlogBundle\Controller\AdminController" class="Geek\BlogBundle\Controller\AdminController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
     </service>
+    <service id="Geek\BlogBundle\Controller\CategoryController" class="Geek\BlogBundle\Controller\CategoryController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+    </service>
     <service id="Geek\BlogBundle\Controller\DefaultController" class="Geek\BlogBundle\Controller\DefaultController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
     </service>
@@ -573,6 +576,9 @@
     <service id="Geek\BlogBundle\Controller\UserController" class="Geek\BlogBundle\Controller\UserController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
     </service>
+    <service id="Geek\BlogBundle\DataFixtures\ORM\CategoryFixtures" class="Geek\BlogBundle\DataFixtures\ORM\CategoryFixtures" public="false" autowire="true" autoconfigure="true">
+      <tag name="doctrine.fixture.orm"/>
+    </service>
     <service id="Geek\BlogBundle\DataFixtures\ORM\CommentsFixtures" class="Geek\BlogBundle\DataFixtures\ORM\CommentsFixtures" public="false" autowire="true" autoconfigure="true">
       <tag name="doctrine.fixture.orm"/>
     </service>
@@ -580,9 +586,6 @@
       <tag name="doctrine.fixture.orm"/>
     </service>
     <service id="Geek\BlogBundle\DataFixtures\ORM\TagsFixtures" class="Geek\BlogBundle\DataFixtures\ORM\TagsFixtures" public="false" autowire="true" autoconfigure="true">
-      <tag name="doctrine.fixture.orm"/>
-    </service>
-    <service id="Geek\BlogBundle\DataFixtures\ORM\ThemesFixtures" class="Geek\BlogBundle\DataFixtures\ORM\ThemesFixtures" public="false" autowire="true" autoconfigure="true">
       <tag name="doctrine.fixture.orm"/>
     </service>
     <service id="Geek\BlogBundle\DataFixtures\ORM\UsersFixtures" class="Geek\BlogBundle\DataFixtures\ORM\UsersFixtures" public="false" autowire="true" autoconfigure="true">
@@ -625,7 +628,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-50"/>
-      <argument type="service" id="service_locator.dfgxadu"/>
+      <argument type="service" id="service_locator.qvtj3gk"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-100"/>
@@ -4175,10 +4178,10 @@
       <argument type="service" id="service_container"/>
       <call method="addFixtures">
         <argument type="collection">
+          <argument type="service" id="Geek\BlogBundle\DataFixtures\ORM\CategoryFixtures"/>
           <argument type="service" id="Geek\BlogBundle\DataFixtures\ORM\CommentsFixtures"/>
           <argument type="service" id="Geek\BlogBundle\DataFixtures\ORM\PostsFixtures"/>
           <argument type="service" id="Geek\BlogBundle\DataFixtures\ORM\TagsFixtures"/>
-          <argument type="service" id="Geek\BlogBundle\DataFixtures\ORM\ThemesFixtures"/>
           <argument type="service" id="Geek\BlogBundle\DataFixtures\ORM\UsersFixtures"/>
         </argument>
       </call>
@@ -4187,6 +4190,8 @@
     <service id="abstract.instanceof.Geek\BlogBundle\Command\CreateUserCommand" class="Geek\BlogBundle\Command\CreateUserCommand" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.Geek\BlogBundle\Controller\AdminController" class="Geek\BlogBundle\Controller\AdminController" public="true" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.Geek\BlogBundle\Controller\AdminController" class="Geek\BlogBundle\Controller\AdminController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.Geek\BlogBundle\Controller\CategoryController" class="Geek\BlogBundle\Controller\CategoryController" public="true" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.Geek\BlogBundle\Controller\CategoryController" class="Geek\BlogBundle\Controller\CategoryController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.Geek\BlogBundle\Controller\DefaultController" class="Geek\BlogBundle\Controller\DefaultController" public="true" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.Geek\BlogBundle\Controller\DefaultController" class="Geek\BlogBundle\Controller\DefaultController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.Geek\BlogBundle\Controller\PostController" class="Geek\BlogBundle\Controller\PostController" public="true" autowire="true" abstract="true"/>
@@ -4195,14 +4200,14 @@
     <service id="abstract.instanceof.Geek\BlogBundle\Controller\TagController" class="Geek\BlogBundle\Controller\TagController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.Geek\BlogBundle\Controller\UserController" class="Geek\BlogBundle\Controller\UserController" public="true" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.Geek\BlogBundle\Controller\UserController" class="Geek\BlogBundle\Controller\UserController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Doctrine\Bundle\FixturesBundle\ORMFixtureInterface.0.Geek\BlogBundle\DataFixtures\ORM\CategoryFixtures" class="Geek\BlogBundle\DataFixtures\ORM\CategoryFixtures" public="false" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.Geek\BlogBundle\DataFixtures\ORM\CategoryFixtures" class="Geek\BlogBundle\DataFixtures\ORM\CategoryFixtures" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Doctrine\Bundle\FixturesBundle\ORMFixtureInterface.0.Geek\BlogBundle\DataFixtures\ORM\CommentsFixtures" class="Geek\BlogBundle\DataFixtures\ORM\CommentsFixtures" public="false" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.Geek\BlogBundle\DataFixtures\ORM\CommentsFixtures" class="Geek\BlogBundle\DataFixtures\ORM\CommentsFixtures" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Doctrine\Bundle\FixturesBundle\ORMFixtureInterface.0.Geek\BlogBundle\DataFixtures\ORM\PostsFixtures" class="Geek\BlogBundle\DataFixtures\ORM\PostsFixtures" public="false" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.Geek\BlogBundle\DataFixtures\ORM\PostsFixtures" class="Geek\BlogBundle\DataFixtures\ORM\PostsFixtures" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Doctrine\Bundle\FixturesBundle\ORMFixtureInterface.0.Geek\BlogBundle\DataFixtures\ORM\TagsFixtures" class="Geek\BlogBundle\DataFixtures\ORM\TagsFixtures" public="false" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.Geek\BlogBundle\DataFixtures\ORM\TagsFixtures" class="Geek\BlogBundle\DataFixtures\ORM\TagsFixtures" public="false" autowire="true" autoconfigure="true" abstract="true"/>
-    <service id="instanceof.Doctrine\Bundle\FixturesBundle\ORMFixtureInterface.0.Geek\BlogBundle\DataFixtures\ORM\ThemesFixtures" class="Geek\BlogBundle\DataFixtures\ORM\ThemesFixtures" public="false" autowire="true" abstract="true"/>
-    <service id="abstract.instanceof.Geek\BlogBundle\DataFixtures\ORM\ThemesFixtures" class="Geek\BlogBundle\DataFixtures\ORM\ThemesFixtures" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Doctrine\Bundle\FixturesBundle\ORMFixtureInterface.0.Geek\BlogBundle\DataFixtures\ORM\UsersFixtures" class="Geek\BlogBundle\DataFixtures\ORM\UsersFixtures" public="false" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.Geek\BlogBundle\DataFixtures\ORM\UsersFixtures" class="Geek\BlogBundle\DataFixtures\ORM\UsersFixtures" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Component\Form\FormTypeInterface.0.Geek\BlogBundle\Form\NewUserType" class="Geek\BlogBundle\Form\NewUserType" public="false" autowire="true" abstract="true"/>
@@ -4221,6 +4226,14 @@
       <tag name="container.service_locator"/>
       <argument type="collection"/>
     </service>
+    <service id="service_locator.xzgw5sz" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection"/>
+    </service>
+    <service id="service_locator.npe0ziq" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection"/>
+    </service>
     <service id="service_locator.httlyab" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection"/>
@@ -4229,7 +4242,7 @@
       <tag name="container.service_locator"/>
       <argument type="collection"/>
     </service>
-    <service id="service_locator.dfgxadu" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.qvtj3gk" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection"/>
     </service>

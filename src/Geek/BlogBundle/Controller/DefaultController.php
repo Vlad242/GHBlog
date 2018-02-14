@@ -15,7 +15,7 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('@GeekBlog/Default/homepage.html.twig');
+        return $this->redirectToRoute('postlist');
     }
 
     /**

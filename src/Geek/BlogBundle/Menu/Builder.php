@@ -22,7 +22,7 @@ class Builder
 
         $menu->addChild('Homepage', array('route' => 'homepage'));
         $menu->addChild('Posts', array('route' => 'postlist'));
-        $menu->addChild('Themes', array('route' => 'postlist'));
+        $menu->addChild('Categories', array('route' => 'categorylist'));
         $menu->addChild('Search', array('route' => 'taglist'));
         // ... add more children
 

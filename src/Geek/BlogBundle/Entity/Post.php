@@ -54,7 +54,7 @@ class Post
     private $tags;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Category.php", inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity="Geek\BlogBundle\Entity\Category", inversedBy="posts")
      */
     private $category;
 

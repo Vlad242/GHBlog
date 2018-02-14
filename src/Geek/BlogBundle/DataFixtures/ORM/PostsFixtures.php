@@ -16,7 +16,7 @@ class PostsFixtures extends Fixture implements DependentFixtureInterface
             $post->setDate(new \DateTime())
                 ->setContent('Some content')
                 ->setTitle('Title'.$i)
-                ->setTheme($this->getReference('theme'.$i))
+                ->setCategory($this->getReference('Category'.$i))
                 ->setUser($this->getReference('user'.$i))
                 ->addTag($this->getReference('tag'.$i));
             $manager->persist($post);
@@ -28,7 +28,7 @@ class PostsFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            ThemesFixtures::class,
+            CategoryFixtures::class,
         ];
     }
 

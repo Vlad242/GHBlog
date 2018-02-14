@@ -109,6 +109,11 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\AdminController::indexAction',  '_route' => 'admin_room',);
         }
 
+        // categorylist
+        if ('/category' === $pathinfo) {
+            return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\CategoryController::listAction',  '_route' => 'categorylist',);
+        }
+
         // homepage
         if ('' === $trimmedPathinfo) {
             $ret = array (  '_controller' => 'Geek\\BlogBundle\\Controller\\DefaultController::indexAction',  '_route' => 'homepage',);
@@ -147,9 +152,32 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return array('_route' => 'logout');
         }
 
-        // postlist
-        if ('/postlist' === $pathinfo) {
-            return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::listAction',  '_route' => 'postlist',);
+        if (0 === strpos($pathinfo, '/post')) {
+            // postlist
+            if ('/postlist' === $pathinfo) {
+                return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::listAction',  '_route' => 'postlist',);
+            }
+
+            // postByTag
+            if (0 === strpos($pathinfo, '/postByTag') && preg_match('#^/postByTag/(?P<tag>[^/]++)/?$#s', $pathinfo, $matches)) {
+                $ret = $this->mergeDefaults(array_replace($matches, array('_route' => 'postByTag')), array (  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::listByTagAction',));
+                if (substr($pathinfo, -1) !== '/') {
+                    return array_replace($ret, $this->redirect($rawPathinfo.'/', 'postByTag'));
+                }
+
+                return $ret;
+            }
+
+            // postByCategory
+            if (0 === strpos($pathinfo, '/postByCategory') && preg_match('#^/postByCategory/(?P<category>[^/]++)/?$#s', $pathinfo, $matches)) {
+                $ret = $this->mergeDefaults(array_replace($matches, array('_route' => 'postByCategory')), array (  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::listByCategoryAction',));
+                if (substr($pathinfo, -1) !== '/') {
+                    return array_replace($ret, $this->redirect($rawPathinfo.'/', 'postByCategory'));
+                }
+
+                return $ret;
+            }
+
         }
 
         // taglist

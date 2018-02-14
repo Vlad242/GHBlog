@@ -7,8 +7,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="theme")
- * @ORM\Entity(repositoryClass="Geek\BlogBundle\Repository\ThemeRepository")
+ * @ORM\Table(name="category")
+ * @ORM\Entity(repositoryClass="Geek\BlogBundle\Repository\CategoryRepository")
  */
 class Category
 {
@@ -30,7 +30,7 @@ class Category
 
     /**
      * @var  Post[]| Collection
-     * @ORM\OneToMany(targetEntity="Geek\BlogBundle\Entity\Post", mappedBy="theme")
+     * @ORM\OneToMany(targetEntity="Geek\BlogBundle\Entity\Post", mappedBy="category")
      */
     private $posts;
 
@@ -74,7 +74,7 @@ class Category
     public function addPost(Post $post)
     {
         $this->posts[] = $post;
-        $post->setTheme($this);
+        $post->setCategory($this);
         return $this;
     }
 
@@ -84,7 +84,7 @@ class Category
     public function removePost (Post $post)
     {
         $this->posts->removeElement($post);
-        $post->setTheme(null);
+        $post->setCategory(null);
     }
 }
 

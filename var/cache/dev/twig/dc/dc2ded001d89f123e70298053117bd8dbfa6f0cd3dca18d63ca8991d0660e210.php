@@ -15,11 +15,11 @@ class __TwigTemplate_7577c9af0044fd6cbc02b9cf0110c024a4796db1ace467c643b9fa60ac5
 
     protected function doDisplay(array $context, array $blocks = array())
     {
-        $__internal_4a4b86d248264d06331672ce3fcc7036433f067b4611b65b097f6054e6e745b5 = $this->env->getExtension("Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension");
-        $__internal_4a4b86d248264d06331672ce3fcc7036433f067b4611b65b097f6054e6e745b5->enter($__internal_4a4b86d248264d06331672ce3fcc7036433f067b4611b65b097f6054e6e745b5_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "@GeekBlog/Tag/tagList.html.twig"));
+        $__internal_7a8d9de94f1ab52f2475670422dc08d61c3bb063d0049174bd6c0a2734dd0149 = $this->env->getExtension("Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension");
+        $__internal_7a8d9de94f1ab52f2475670422dc08d61c3bb063d0049174bd6c0a2734dd0149->enter($__internal_7a8d9de94f1ab52f2475670422dc08d61c3bb063d0049174bd6c0a2734dd0149_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "@GeekBlog/Tag/tagList.html.twig"));
 
-        $__internal_ec93a3f4317536d471e7a166d5006f8898688258e1cb602dbf5651d7ddee96f9 = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
-        $__internal_ec93a3f4317536d471e7a166d5006f8898688258e1cb602dbf5651d7ddee96f9->enter($__internal_ec93a3f4317536d471e7a166d5006f8898688258e1cb602dbf5651d7ddee96f9_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "@GeekBlog/Tag/tagList.html.twig"));
+        $__internal_14a732efba7242c83cef8866b356619580fba1ff459d0df6ccea81fb14626c04 = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
+        $__internal_14a732efba7242c83cef8866b356619580fba1ff459d0df6ccea81fb14626c04->enter($__internal_14a732efba7242c83cef8866b356619580fba1ff459d0df6ccea81fb14626c04_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "@GeekBlog/Tag/tagList.html.twig"));
 
         // line 1
         echo "<div class=\"well\">
@@ -31,7 +31,7 @@ class __TwigTemplate_7577c9af0044fd6cbc02b9cf0110c024a4796db1ace467c643b9fa60ac5
         foreach ($context['_seq'] as $context["_key"] => $context["tag"]) {
             // line 4
             echo "        <a class=\"btn-xs btn-primary\" type=\"button\" href=\"";
-            echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("login");
+            echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("postByTag", array("tag" => $this->getAttribute($context["tag"], "getId", array()))), "html", null, true);
             echo "\" style=\"margin: 1px\">
             <span class=\"glyphicon glyphicon-tag\"></span> ";
             // line 5
@@ -45,10 +45,10 @@ class __TwigTemplate_7577c9af0044fd6cbc02b9cf0110c024a4796db1ace467c643b9fa60ac5
         // line 7
         echo "</div>";
         
-        $__internal_4a4b86d248264d06331672ce3fcc7036433f067b4611b65b097f6054e6e745b5->leave($__internal_4a4b86d248264d06331672ce3fcc7036433f067b4611b65b097f6054e6e745b5_prof);
+        $__internal_7a8d9de94f1ab52f2475670422dc08d61c3bb063d0049174bd6c0a2734dd0149->leave($__internal_7a8d9de94f1ab52f2475670422dc08d61c3bb063d0049174bd6c0a2734dd0149_prof);
 
         
-        $__internal_ec93a3f4317536d471e7a166d5006f8898688258e1cb602dbf5651d7ddee96f9->leave($__internal_ec93a3f4317536d471e7a166d5006f8898688258e1cb602dbf5651d7ddee96f9_prof);
+        $__internal_14a732efba7242c83cef8866b356619580fba1ff459d0df6ccea81fb14626c04->leave($__internal_14a732efba7242c83cef8866b356619580fba1ff459d0df6ccea81fb14626c04_prof);
 
     }
 
@@ -80,7 +80,7 @@ class __TwigTemplate_7577c9af0044fd6cbc02b9cf0110c024a4796db1ace467c643b9fa60ac5
         return new Twig_Source("<div class=\"well\">
     <h3 align=\"center\">Tags:</h3><br>
     {% for tag in tags %}
-        <a class=\"btn-xs btn-primary\" type=\"button\" href=\"{{ path(\"login\") }}\" style=\"margin: 1px\">
+        <a class=\"btn-xs btn-primary\" type=\"button\" href=\"{{ path(\"postByTag\", {'tag' : tag.getId })}}\" style=\"margin: 1px\">
             <span class=\"glyphicon glyphicon-tag\"></span> {{ tag.name }} </a>
     {% endfor %}
 </div>", "@GeekBlog/Tag/tagList.html.twig", "/home/vlad/Work/ghBlog/src/Geek/BlogBundle/Resources/views/Tag/tagList.html.twig");
