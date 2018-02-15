@@ -11,8 +11,10 @@
         <p>
             {{ post.content}}
         </p>
-        <div align="right">
-            <a class="btn-xs btn-primary" href="{{ path("postByCategory", {'category' : post.getCategory().getId() })}}">
+        <div>
+            <a style="position: absolute; left: 10%; color: Red" href="{{ path("likecheck", {'post' : post.getId() })}}">
+                <span class="glyphicon glyphicon-heart"></span> {{ post.getLikeCount() }} </a>
+            <a style="position: absolute; right: 10%" class="btn-xs btn-primary" href="{{ path("postByCategory", {'category' : post.getCategory().getId() })}}">
                 <span class="glyphicon glyphicon-chevron-right"></span> {{ post.getCategory().getName() }} </a>
         </div>
         <br>

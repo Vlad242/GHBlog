@@ -64,10 +64,10 @@ class Post extends \Geek\BlogBundle\Entity\Post implements \Doctrine\ORM\Proxy\P
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'id', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'content', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'title', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'user', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'tags', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'category', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'comments', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'created', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'updated', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'contentChanged', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'slug'];
+            return ['__isInitialized__', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'id', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'content', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'title', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'user', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'tags', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'category', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'comments', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'created', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'updated', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'contentChanged', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'slug', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'likes'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'id', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'content', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'title', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'user', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'tags', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'category', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'comments', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'created', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'updated', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'contentChanged', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'slug'];
+        return ['__isInitialized__', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'id', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'content', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'title', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'user', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'tags', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'category', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'comments', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'created', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'updated', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'contentChanged', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'slug', '' . "\0" . 'Geek\\BlogBundle\\Entity\\Post' . "\0" . 'likes'];
     }
 
     /**
@@ -384,6 +384,50 @@ class Post extends \Geek\BlogBundle\Entity\Post implements \Doctrine\ORM\Proxy\P
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSlug', []);
 
         return parent::getSlug();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLikes()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLikes', []);
+
+        return parent::getLikes();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLikes($likes)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLikes', [$likes]);
+
+        return parent::setLikes($likes);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addLike(\Geek\BlogBundle\Entity\User $user)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addLike', [$user]);
+
+        return parent::addLike($user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeLike(\Geek\BlogBundle\Entity\User $user)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeLike', [$user]);
+
+        return parent::removeLike($user);
     }
 
 }

@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CommentController extends Controller
 {
     /**
-     * @Route("/newcomment/{slug}", name="newcomment")
+     * @Route("/newcomment/{post_id}", name="newcomment")
      * @param Request $request
      * @param Post $post
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
@@ -34,10 +34,10 @@ class CommentController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
-            return $this->redirectToRoute('viewPost', ['id' => $post->getSlug()]);
+            return $this->redirectToRoute('viewPost', ['id' => $post->getId()]);
         }
 
         $this->addFlash('danger', 'Something wrong!');
-        return $this->redirectToRoute('viewPost', ['id' => $post->getSlug()]);
+        return $this->redirectToRoute('viewPost', ['id' => $post->getId()]);
     }
 }

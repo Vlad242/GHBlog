@@ -115,7 +115,7 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
         }
 
         // newcomment
-        if (0 === strpos($pathinfo, '/newcomment') && preg_match('#^/newcomment/(?P<slug>[^/]++)$#s', $pathinfo, $matches)) {
+        if (0 === strpos($pathinfo, '/newcomment') && preg_match('#^/newcomment/(?P<post_id>[^/]++)$#s', $pathinfo, $matches)) {
             return $this->mergeDefaults(array_replace($matches, array('_route' => 'newcomment')), array (  '_controller' => 'Geek\\BlogBundle\\Controller\\CommentController::newCommentAction',));
         }
 
@@ -149,22 +149,30 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\DefaultController::registerAction',  '_route' => 'register',);
         }
 
-        if (0 === strpos($pathinfo, '/login')) {
-            // login
-            if ('/login' === $pathinfo) {
-                return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\DefaultController::loginAction',  '_route' => 'login',);
+        if (0 === strpos($pathinfo, '/l')) {
+            if (0 === strpos($pathinfo, '/login')) {
+                // login
+                if ('/login' === $pathinfo) {
+                    return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\DefaultController::loginAction',  '_route' => 'login',);
+                }
+
+                // login_check
+                if ('/login_check' === $pathinfo) {
+                    return array('_route' => 'login_check');
+                }
+
             }
 
-            // login_check
-            if ('/login_check' === $pathinfo) {
-                return array('_route' => 'login_check');
+            // logout
+            if ('/logout' === $pathinfo) {
+                return array('_route' => 'logout');
             }
 
-        }
+            // likecheck
+            if (0 === strpos($pathinfo, '/likecheck') && preg_match('#^/likecheck/(?P<post>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'likecheck')), array (  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::likesCheckerAction',));
+            }
 
-        // logout
-        if ('/logout' === $pathinfo) {
-            return array('_route' => 'logout');
         }
 
         // search

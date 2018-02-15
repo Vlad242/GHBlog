@@ -13,7 +13,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PostController extends Controller
 {
@@ -174,6 +173,33 @@ class PostController extends Controller
             $this->addFlash('warning', "You don`t have permission to do this!");
             return $this->redirectToRoute('user_room');
         }
+    }
 
+    /**
+     * @Route("/likecheck/{post}", name="likecheck")
+     * @param Post $post
+     * @return Response
+     * @ParamConverter("post", class="Geek\BlogBundle\Entity\Post")
+     */
+    public function likesCheckerAction(Post $post)
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
+
+        $em = $this->getDoctrine()->getManager();
+        $postrepository = $em->getRepository('GeekBlogBundle:Post');
+        $user = $this->getUser();
+        $like =$postrepository->findLikes($post, $user);
+
+        if ($like == null){
+            $post->addLike($user);
+            $em->persist($post);
+            $em->flush();
+        }else{
+            $post->removeLike($user);
+            $em->persist($post);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('homepage');
     }
 }

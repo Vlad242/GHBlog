@@ -85,4 +85,22 @@ class PostRepository extends EntityRepository
             ->setParameter('str', $str)
             ->getQuery();
     }
+
+    /**
+     * @param Post $post
+     * @param User $user
+     * @return array
+     */
+    public function findLikes(Post $post, User $user)
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.likes', 'user')
+            ->where('user.id = :user')
+            ->andWhere('p.id = :post')
+            ->setParameters([
+                'user' => $user,
+                'post' => $post
+            ])
+            ->getQuery()->getResult();
+    }
 }

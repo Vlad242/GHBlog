@@ -88,6 +88,13 @@ class Post
      */
     private $slug;
 
+    /**
+     * @var  User[]| Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Geek\BlogBundle\Entity\User", inversedBy="likes")
+     */
+    private $likes;
+
     public  function  __construct ()  {
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
@@ -270,6 +277,51 @@ class Post
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getLikes()
+    {
+        return $this->likes;
+    }
+
+    /**
+     * @param Collection|User[] $likes
+     */
+    public function setLikes($likes)
+    {
+        $this->likes = $likes;
+    }
+
+
+    /**
+     * @param User $user
+     * @return $this
+     */
+    public function addLike(User $user)
+    {
+        $user->addPost($this);
+        $this->likes[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function removeLike (User $user)
+    {
+        $this->likes->removeElement($user);
+    }
+
+    /**
+     * @return int
+     */
+    public  function getLikeCount()
+    {
+        return $this->likes->count();
     }
 }
 

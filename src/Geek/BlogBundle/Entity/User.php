@@ -88,6 +88,13 @@ class User implements AdvancedUserInterface
      */
     private $posts;
 
+    /**
+     * @var  Post[]| Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Geek\BlogBundle\Entity\Post", mappedBy="likes")
+     */
+    private $likes;
+
     public function __construct()
     {
         $this->setRoles('ROLE_USER');
@@ -339,6 +346,42 @@ class User implements AdvancedUserInterface
         $this->roles[] = $role;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Post[]
+     */
+    public function getLikes()
+    {
+        return $this->likes;
+    }
+
+    /**
+     * @param Collection|Post[] $likes
+     */
+    public function setLikes($likes)
+    {
+        $this->likes = $likes;
+    }
+
+    /**
+     * @param Post $post
+     *
+     * @return User
+     */
+    public function addLikes(Post $post)
+    {
+        $this->likes[] = $post;
+        $post->setUser($this);
+        return $this;
+    }
+
+    /**
+     * @param Post $post
+     */
+    public function removeLike (Post $post)
+    {
+        $this->likes->removeElement($post);
     }
 }
 

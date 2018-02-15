@@ -64,10 +64,10 @@ class User extends \Geek\BlogBundle\Entity\User implements \Doctrine\ORM\Proxy\P
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'name', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'username', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'plainPassword', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'roles', 'locked', 'enabled', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'comments', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'posts'];
+            return ['__isInitialized__', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'name', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'username', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'plainPassword', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'roles', 'locked', 'enabled', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'comments', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'posts', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'likes'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'name', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'username', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'plainPassword', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'roles', 'locked', 'enabled', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'comments', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'posts'];
+        return ['__isInitialized__', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'name', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'username', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'plainPassword', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'roles', 'locked', 'enabled', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'comments', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'posts', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'likes'];
     }
 
     /**
@@ -472,6 +472,50 @@ class User extends \Geek\BlogBundle\Entity\User implements \Doctrine\ORM\Proxy\P
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'addRole', [$role]);
 
         return parent::addRole($role);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLikes()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLikes', []);
+
+        return parent::getLikes();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLikes($likes)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLikes', [$likes]);
+
+        return parent::setLikes($likes);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addLikes(\Geek\BlogBundle\Entity\Post $post)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addLikes', [$post]);
+
+        return parent::addLikes($post);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeLike(\Geek\BlogBundle\Entity\Post $post)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeLike', [$post]);
+
+        return parent::removeLike($post);
     }
 
 }

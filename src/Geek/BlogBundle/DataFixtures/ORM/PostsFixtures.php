@@ -18,7 +18,8 @@ class PostsFixtures extends Fixture implements DependentFixtureInterface
                 ->setTitle('Title'.$i)
                 ->setCategory($this->getReference('Category'.$i))
                 ->setUser($this->getReference('user'.$i))
-                ->addTag($this->getReference('tag'.$i));
+                ->addTag($this->getReference('tag'.$i))
+                ->addLike($this->getReference('user'.$i));
             $manager->persist($post);
             $this->setReference('post'.$i, $post);
         }
