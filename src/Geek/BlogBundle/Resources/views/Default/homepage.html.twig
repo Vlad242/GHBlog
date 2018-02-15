@@ -27,7 +27,7 @@
                 </a>
                 <h5><span class="glyphicon glyphicon-time"></span>Post by
                     <a href="{{ path("postByUser", {'user' :  post.getUser().getId() })}}">
-                        <span class="glyphicon glyphicon-user"></span> {{  post.user.getUsername  }} </a>, {{ post.created | date('Y-m-d') }}</h5>
+                        <span class="glyphicon glyphicon-user"></span> {{  post.user.getUsername  }} </a>, {{ post.created | date('Y-m-d') }} (last update: {{ post.updated | date('Y-m-d') }})</h5>
                 {% for tag in post.getTags %}
                 <a class="btn-xs btn-primary" style="margin: 1px" href="{{ path("postByTag", {'tag' : tag.getId() })}}">
                     <span class="glyphicon glyphicon-tag"></span> {{ tag.getName() }} </a>

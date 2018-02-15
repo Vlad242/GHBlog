@@ -54,7 +54,7 @@ class Post
     /**
      *@var  Comment[]| Collection
      *
-     * @ORM\OneToMany(targetEntity="Geek\BlogBundle\Entity\Comment", mappedBy="post")
+     * @ORM\OneToMany(targetEntity="Geek\BlogBundle\Entity\Comment", mappedBy="post", orphanRemoval=true)
      */
     private $comments;
 

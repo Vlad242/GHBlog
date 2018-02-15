@@ -21,7 +21,7 @@
         {% for comment in post.comments %}
         <div class="well">
             <h3> {{comment.getUser().getName()}}</h3>
-            <h5><span class="glyphicon glyphicon-time"></span>{{ comment.created | date('Y-m-d') }}</h5>
+            <h5><span class="glyphicon glyphicon-time"></span>{{ comment.created | date('Y-m-d') }} (last update: {{ post.updated | date('Y-m-d') }})</h5>
             {{ comment.content}}
         </div>
         {% endfor %}

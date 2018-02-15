@@ -8,6 +8,7 @@ use Geek\BlogBundle\Entity\Tag;
 use Geek\BlogBundle\Entity\User;
 use Geek\BlogBundle\Form\NewCommentType;
 use Geek\BlogBundle\Form\NewPostType;
+use Geek\BlogBundle\Form\UpdatePostType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -164,15 +165,32 @@ class PostController extends Controller
      */
     public function deletePostAction(Post $post)
     {
-        try{
             $em = $this->getDoctrine()->getManager();
             $em->remove($post);
             $em->flush();
+
             return $this->redirectToRoute('user_room');
-        }catch (\Exception $ex){
-            $this->addFlash('warning', "You don`t have permission to do this!");
+    }
+
+    /**
+     * @Route("/updatepost/{post}", name="updatepost")
+     * @param Request $request
+     * @param Post $post
+     * @return Response* @ParamConverter("post", class="Geek\BlogBundle\Entity\Post")
+     */
+    public function UpdatePostAction(Request $request, Post $post)
+    {
+        $form = $this->createForm(UpdatePostType::class, $post);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($post);
+            $em->flush();
+
             return $this->redirectToRoute('user_room');
         }
+        return $this->render('@GeekBlog/Post/NewPost.html.twig', ['id' => $post->getId(),'form'=> $form->createView()]);
     }
 
     /**

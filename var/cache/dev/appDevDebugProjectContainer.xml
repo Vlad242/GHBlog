@@ -647,6 +647,9 @@
     <service id="Geek\BlogBundle\Form\SearchType" class="Geek\BlogBundle\Form\SearchType" public="false" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
+    <service id="Geek\BlogBundle\Form\UpdatePostType" class="Geek\BlogBundle\Form\UpdatePostType" public="false" autowire="true" autoconfigure="true">
+      <tag name="form.type"/>
+    </service>
     <service id="Geek\BlogBundle\GeekBlogBundle" class="Geek\BlogBundle\GeekBlogBundle" public="false" autowire="true" autoconfigure="true"/>
     <service id="Geek\BlogBundle\Menu\Builder" class="Geek\BlogBundle\Menu\Builder" public="false" autowire="true" autoconfigure="true"/>
     <service id="create_user.command" class="Geek\BlogBundle\Command\CreateUserCommand" public="false" autowire="true" autoconfigure="true">
@@ -678,7 +681,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-50"/>
-      <argument type="service" id="service_locator.bcgwswy"/>
+      <argument type="service" id="service_locator.aszgxrm"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-100"/>
@@ -915,6 +918,7 @@
         <argument>Geek\BlogBundle\Form\NewPostType</argument>
         <argument>Geek\BlogBundle\Form\NewUserType</argument>
         <argument>Geek\BlogBundle\Form\SearchType</argument>
+        <argument>Geek\BlogBundle\Form\UpdatePostType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\FormType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\ChoiceType</argument>
         <argument>Symfony\Bridge\Doctrine\Form\Type\EntityType</argument>
@@ -1126,7 +1130,7 @@
       <argument type="service" id="form.resolved_type_factory"/>
     </service>
     <service id="form.extension" class="Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension" public="false">
-      <argument type="service" id="service_locator.tdiygf0"/>
+      <argument type="service" id="service_locator.1eg1aof"/>
       <argument type="collection">
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="iterator">
           <argument type="service" id="form.type_extension.form.http_foundation"/>
@@ -4326,6 +4330,8 @@
     <service id="abstract.instanceof.Geek\BlogBundle\Form\NewUserType" class="Geek\BlogBundle\Form\NewUserType" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Component\Form\FormTypeInterface.0.Geek\BlogBundle\Form\SearchType" class="Geek\BlogBundle\Form\SearchType" public="false" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.Geek\BlogBundle\Form\SearchType" class="Geek\BlogBundle\Form\SearchType" public="false" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Symfony\Component\Form\FormTypeInterface.0.Geek\BlogBundle\Form\UpdatePostType" class="Geek\BlogBundle\Form\UpdatePostType" public="false" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.Geek\BlogBundle\Form\UpdatePostType" class="Geek\BlogBundle\Form\UpdatePostType" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Component\Console\Command\Command.0.create_user.command" class="Geek\BlogBundle\Command\CreateUserCommand" public="false" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.create_user.command" class="Geek\BlogBundle\Command\CreateUserCommand" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="service_locator..2hoti4" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
@@ -4360,6 +4366,10 @@
       <tag name="container.service_locator"/>
       <argument type="collection"/>
     </service>
+    <service id="service_locator.qzt2bcv" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection"/>
+    </service>
     <service id="service_locator.httlyab" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection"/>
@@ -4368,7 +4378,7 @@
       <tag name="container.service_locator"/>
       <argument type="collection"/>
     </service>
-    <service id="service_locator.bcgwswy" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.aszgxrm" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection"/>
     </service>
@@ -4479,13 +4489,14 @@
         <argument key="inline" type="service" id="fragment.renderer.inline"/>
       </argument>
     </service>
-    <service id="service_locator.tdiygf0" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.1eg1aof" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="Geek\BlogBundle\Form\NewCommentType" type="service" id="Geek\BlogBundle\Form\NewCommentType"/>
         <argument key="Geek\BlogBundle\Form\NewPostType" type="service" id="Geek\BlogBundle\Form\NewPostType"/>
         <argument key="Geek\BlogBundle\Form\NewUserType" type="service" id="Geek\BlogBundle\Form\NewUserType"/>
         <argument key="Geek\BlogBundle\Form\SearchType" type="service" id="Geek\BlogBundle\Form\SearchType"/>
+        <argument key="Geek\BlogBundle\Form\UpdatePostType" type="service" id="Geek\BlogBundle\Form\UpdatePostType"/>
         <argument key="Symfony\Bridge\Doctrine\Form\Type\EntityType" type="service" id="form.type.entity"/>
         <argument key="Symfony\Component\Form\Extension\Core\Type\ChoiceType" type="service" id="form.type.choice"/>
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="service" id="form.type.form"/>

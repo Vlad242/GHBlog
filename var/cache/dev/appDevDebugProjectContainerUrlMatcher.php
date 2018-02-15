@@ -216,14 +216,19 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return $this->mergeDefaults(array_replace($matches, array('_route' => 'deletepost')), array (  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::deletePostAction',));
         }
 
-        // taglist
-        if ('/Taglist' === $pathinfo) {
-            return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\TagController::listAction',  '_route' => 'taglist',);
+        // updatepost
+        if (0 === strpos($pathinfo, '/updatepost') && preg_match('#^/updatepost/(?P<post>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'updatepost')), array (  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::UpdatePostAction',));
         }
 
         // user_room
         if (0 === strpos($pathinfo, '/user') && preg_match('#^/user(?:/(?P<limit>[^/]++))?$#s', $pathinfo, $matches)) {
             return $this->mergeDefaults(array_replace($matches, array('_route' => 'user_room')), array (  'limit' => 5,  '_controller' => 'Geek\\BlogBundle\\Controller\\UserController::indexAction',));
+        }
+
+        // taglist
+        if ('/Taglist' === $pathinfo) {
+            return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\TagController::listAction',  '_route' => 'taglist',);
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
