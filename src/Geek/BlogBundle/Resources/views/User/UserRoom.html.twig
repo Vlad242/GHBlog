@@ -1,21 +1,48 @@
-{% extends '@GeekBlog/Default/base.html.twig.html.twig' %}
+{% extends '@GeekBlog/Default/base.html.twig' %}
 {% block body %}
-    <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8">
-            {#<a href="{{ path("user_test") }}" class="btn btn-primary">#}
-                {#<span class="glyphicon glyphicon-check" aria-hidden="true"></span> New test </a>#}
+    <div class="well">
+        <div class="navigation" align="center">
+            <div class="well">
+                <a style="margin: 1px" class="btn-xs btn-primary">Post per page -> </a>
+                <a style="margin: 1px" class="btn-xs btn-primary" href="{{ path("user_room", {'limit' : 5 })}}">
+                    <span class="glyphicon glyphicon-filter"></span> 5 </a>
+                <a style="margin: 1px" class="btn-xs btn-primary" href="{{ path("user_room", {'limit' : 10 })}}">
+                    <span class="glyphicon glyphicon-filter"></span> 10 </a>
+                <a style="margin: 1px" class="btn-xs btn-primary" href="{{ path("user_room", {'limit' : 20 })}}">
+                    <span class="glyphicon glyphicon-filter"></span> 20 </a>
+            </div>
+            {{ knp_pagination_render(pagination) }}
         </div>
-        <div class="col-sm-2">
-            <a href="{{ path("login") }}" class="btn btn-primary">
-                <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>  LogIn </a>
-            <a href="{{ path("logout") }}" class="btn btn-danger">
-                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>  LogOut </a>
+        {% for post in pagination %}
+            <div class="well">
+                <a href="{{ path("viewPost", {'id' : post.getId() })}}">
+                    <h2> {{post.title}}</h2>
+                </a>
+                <h5><span class="glyphicon glyphicon-time"></span>Post by <b>{{ post.user.getUsername }}</b>, {{ post.created | date('Y-m-d') }}</h5>
+                {% for tag in post.getTags %}
+                <a class="btn-xs btn-primary" style="margin: 1px" href="{{ path("postByTag", {'tag' : tag.getId })}}">
+                    <span class="glyphicon glyphicon-tag"></span> {{ tag.getName }} </a>
+                {% endfor %}<hr>
+                <p>
+                    {{ post.content}}
+                </p>
+                <div>
+                    <a style="position: absolute; left: 10%" class="btn-xs btn-danger" href="{{ path("deletepost", {'post' : post.getId() })}}">
+                        <span class="glyphicon glyphicon-chevron-right"></span> Delete post </a>
+
+                    <a  style="position: absolute; right: 10%" class="btn-xs btn-primary" href="{{ path("postByCategory", {'category' : post.getCategory().getId() })}}">
+                        <span class="glyphicon glyphicon-chevron-right"></span> {{ post.getCategory().getName() }} </a>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="navigation" align="center">
+            {{ knp_pagination_render(pagination) }}
         </div>
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8">
-            <h1>Hello {{ username }}</h1>
-        </div>
-        <div class="col-sm-2"></div>
+    </div>
+{% endblock %}
+
+{% block right %}
+    <div class="well">
+        {{ render(controller('GeekBlogBundle:Tag:list')) }}
     </div>
 {% endblock %}

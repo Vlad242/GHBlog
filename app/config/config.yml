@@ -37,6 +37,8 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    form_themes:
+        - 'bootstrap_3_layout.html.twig'
 
 # Doctrine Configuration
 doctrine:
@@ -74,7 +76,7 @@ knp_paginator:
         page_name: page
 
 white_october_breadcrumbs:
-    separator:          '/'
+    separator:          ''
     separatorClass:     'separator'
     listId:             'wo-breadcrumbs'
     listClass:          'breadcrumb'
@@ -83,3 +85,9 @@ white_october_breadcrumbs:
     locale:             ~ # defaults to null, so the default locale is used
     translation_domain: ~ # defaults to null, so the default domain is used
     viewTemplate:       'WhiteOctoberBreadcrumbsBundle::microdata.html.twig'
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            timestampable: true
+            sluggable: true

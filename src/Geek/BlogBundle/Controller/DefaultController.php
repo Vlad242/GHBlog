@@ -4,6 +4,7 @@ namespace Geek\BlogBundle\Controller;
 
 use Geek\BlogBundle\Entity\User;
 use Geek\BlogBundle\Form\NewUserType;
+use Geek\BlogBundle\Form\SearchType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -88,5 +89,47 @@ class DefaultController extends Controller
         return $this->render('@GeekBlog/User/NewUser.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/search/{str}/{limit}", name="search")
+     * @param Request $request
+     * @param string $str
+     * @param int $limit
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function searchAction(Request $request, $str = '', $limit = 5)
+    {
+        if ($str == '') {
+            $form = $this->createForm(SearchType::class);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $str = $form->get('search')->getData();
+                $str = '%' . $str . '%';
+                $em = $this->getDoctrine()->getManager();
+                $postrepository = $em->getRepository('GeekBlogBundle:Post');
+                $paginator = $this->get('knp_paginator');
+                $pagination = $paginator->paginate(
+                    $postrepository->findByString($str),
+                    $request->query->getInt('page', 1),
+                    $limit
+                );
+
+                return $this->render('@GeekBlog/Post/postByString.html.twig', ['pagination' => $pagination, 'str' => $str]);
+            }
+            return $this->render('@GeekBlog/Default/search.html.twig', ['form' => $form->createView()]);
+        }else{
+            $em = $this->getDoctrine()->getManager();
+            $postrepository = $em->getRepository('GeekBlogBundle:Post');
+            $paginator = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
+                $postrepository->findByString($str),
+                $request->query->getInt('page', 1),
+                $limit
+            );
+
+            return $this->render('@GeekBlog/Post/postByString.html.twig', ['pagination' => $pagination, 'str' => $str]);
+        }
     }
 }

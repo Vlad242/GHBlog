@@ -2,6 +2,7 @@
 
 namespace Geek\BlogBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,16 +23,9 @@ class Comment
     /**
      * @var string
      *
-     * @ORM\Column(name="Content", type="string", length=1500)
+     * @ORM\Column(name="content", type="string", length=1500)
      */
-    private $Content;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="Date", type="datetime")
-     */
-    private $date;
+    private $content;
 
     /**
      * @ORM\ManyToOne(targetEntity="Geek\BlogBundle\Entity\User", inversedBy="comments")
@@ -42,6 +36,30 @@ class Comment
      * @ORM\ManyToOne(targetEntity="Geek\BlogBundle\Entity\Post", inversedBy="comments")
      */
     private $post;
+
+    /**
+     * @var \DateTime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
+    /**
+     * @var \DateTime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
+
+    /**
+     * @var \DateTime $contentChanged
+     *
+     * @ORM\Column(name="content_changed", type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="change", field={"content"})
+     */
+    private $contentChanged;
 
     /**
      * @return int
@@ -58,7 +76,7 @@ class Comment
      */
     public function setContent($Content)
     {
-        $this->Content = $Content;
+        $this->content = $Content;
 
         return $this;
     }
@@ -68,27 +86,7 @@ class Comment
      */
     public function getContent()
     {
-        return $this->Content;
-    }
-
-    /**
-     * @param \DateTime $date
-     *
-     * @return Comment
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getDate()
-    {
-        return $this->date;
+        return $this->content;
     }
 
     /**
@@ -129,6 +127,31 @@ class Comment
     public function getPost()
     {
         return $this->post;
+    }
+
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getContentChanged()
+    {
+        return $this->contentChanged;
     }
 }
 

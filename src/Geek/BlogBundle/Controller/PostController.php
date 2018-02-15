@@ -3,7 +3,11 @@
 namespace Geek\BlogBundle\Controller;
 
 use Geek\BlogBundle\Entity\Category;
+use Geek\BlogBundle\Entity\Post;
 use Geek\BlogBundle\Entity\Tag;
+use Geek\BlogBundle\Entity\User;
+use Geek\BlogBundle\Form\NewCommentType;
+use Geek\BlogBundle\Form\NewPostType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -14,15 +18,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class PostController extends Controller
 {
     /**
-     * @Route("/postlist", name="postlist")
+     * @Route("/postlist/{limit}", name="postlist")
      * @param Request $request
+     * @param int $limit
      * @return Response
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request, $limit = 5)
     {
-        $breadcrumbs = $this->get("white_october_breadcrumbs");
-        $breadcrumbs->addItem("Home", $this->get("router")->generate("homepage"));
-
         $em = $this->getDoctrine()->getManager();
         $postrepository = $em->getRepository('GeekBlogBundle:Post');
 
@@ -30,24 +32,22 @@ class PostController extends Controller
         $pagination = $paginator->paginate(
             $postrepository->findAllQuery(),
             $request->query->getInt('page', 1),
-            5
+            $limit
         );
 
         return $this->render('@GeekBlog/Default/homepage.html.twig', array('pagination' => $pagination));
     }
 
     /**
-     * @Route("/postByTag/{tag}/", name="postByTag")
+     * @Route("/postByTag/{tag}/{limit}", name="postByTag")
      * @param Request $request
      * @param Tag $tag
+     * @param int $limit
      * @return Response
      * @ParamConverter("tag", class="Geek\BlogBundle\Entity\Tag")
      */
-    public function listByTagAction(Request $request, Tag $tag)
+    public function listByTagAction(Request $request, Tag $tag, $limit = 5)
     {
-        if (!$tag) {
-            throw new NotFoundHttpException("Страница не найдена");
-        }
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Home", $this->get("router")->generate("homepage"));
 
@@ -57,35 +57,54 @@ class PostController extends Controller
         $pagination = $paginator->paginate(
             $postrepository->findByTag($tag),
             $request->query->getInt('page', 1),
-            5
+            $limit
         );
-
-        return $this->render('@GeekBlog/Post/postByTag.html.twig', array('pagination' => $pagination));
+        return $this->render('@GeekBlog/Post/postByTag.html.twig', ['pagination' => $pagination, 'currentTag' => $tag]);
     }
 
     /**
-     * @Route("/postByCategory/{category}/", name="postByCategory")
+     * @Route("/postByCategory/{category}/{limit}", name="postByCategory")
      * @param Request $request
      * @param Category $category
+     * @param int $limit
      * @return Response
      * @ParamConverter("category", class="Geek\BlogBundle\Entity\Category")
      */
-    public function listByCategoryAction(Request $request, Category $category)
+    public function listByCategoryAction(Request $request, Category $category, $limit = 5)
     {
-        if (!$category) {
-            throw new NotFoundHttpException("Страница не найдена");
-        }
-
         $em = $this->getDoctrine()->getManager();
         $postrepository = $em->getRepository('GeekBlogBundle:Post');
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $postrepository->findByCategory($category),
             $request->query->getInt('page', 1),
-            5
+            $limit
         );
 
-        return $this->render('@GeekBlog/Post/postByCategory.html.twig', array('pagination' => $pagination));
+        return $this->render('@GeekBlog/Post/postByCategory.html.twig', ['pagination' => $pagination, 'currentCategory' => $category]);
+    }
+
+
+    /**
+     * @Route("/postByUser/{user}/{limit}", name="postByUser")
+     * @param Request $request
+     * @param User $user
+     * @param int $limit
+     * @return Response
+     * @ParamConverter("user", class="Geek\BlogBundle\Entity\User")
+     */
+    public function listByUserAction(Request $request, User $user, $limit = 5)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $postrepository = $em->getRepository('GeekBlogBundle:Post');
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $postrepository->findByUser($user),
+            $request->query->getInt('page', 1),
+            $limit
+        );
+
+        return $this->render('@GeekBlog/Post/postByUser.html.twig', ['pagination' => $pagination, 'currentUser' => $user]);
     }
 
     /**
@@ -95,8 +114,11 @@ class PostController extends Controller
      */
     public function viewPostAction($id)
     {
-        if (!$id) {
-            throw new NotFoundHttpException("Страница не найдена");
+        $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository('GeekBlogBundle:Post')->find($id);
+
+        if (!$post) {
+            $this->addFlash('danger', 'Something wrong!');
         }
 
         $breadcrumbs = $this->get("white_october_breadcrumbs");
@@ -104,10 +126,54 @@ class PostController extends Controller
         $breadcrumbs->addRouteItem("Post №".$id, "viewPost", [
             'id' => $id,
         ]);
+        $form = $this->createForm(NewCommentType::class, null, ['action' => $this->generateUrl('newcomment', ['post_id' => $post->getId()])]);
+        return $this->render('@GeekBlog/Post/viewPost.html.twig', ['post' => $post, 'form'=> $form->createView()]);
+    }
 
-        $em = $this->getDoctrine()->getManager();
-        $post = $em->getRepository('GeekBlogBundle:Post')->find($id);
-        return $this->render('@GeekBlog/Post/viewPost.html.twig', ['post' => $post]);
+    /**
+     * @Route("/newpost/", name="newpost")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function newCommentAction(Request $request)
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
+
+        $post = new Post();
+        $post->setUser($this->getUser());
+
+        $form = $this->createForm(NewPostType::class, $post);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($post);
+            $em->flush();
+
+            return $this->redirectToRoute('user_room');
+        }
+
+        $this->addFlash('danger', 'Something wrong!');
+        return $this->render('@GeekBlog/Post/NewPost.html.twig', ['id' => $post->getId(),'form'=> $form->createView()]);
+    }
+
+    /**
+     * @Route("/deletepost/{post}", name="deletepost")
+     * @param Post $post
+     * @return Response
+     * @ParamConverter("post", class="Geek\BlogBundle\Entity\Post")
+     */
+    public function deletePostAction(Post $post)
+    {
+        try{
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($post);
+            $em->flush();
+            return $this->redirectToRoute('user_room');
+        }catch (\Exception $ex){
+            $this->addFlash('warning', "You don`t have permission to do this!");
+            return $this->redirectToRoute('user_room');
+        }
 
     }
 }

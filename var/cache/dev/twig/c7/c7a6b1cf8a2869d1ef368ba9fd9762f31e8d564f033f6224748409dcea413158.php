@@ -15,11 +15,11 @@ class __TwigTemplate_abecaba2e9f9a71d3bcf40a6259819caa19a28205ad949731ad0eafd3c9
 
     protected function doDisplay(array $context, array $blocks = array())
     {
-        $__internal_138da6ae8f6f79e0a98ec27ccede2e4b018bfb33315c3e71db25549903e126f0 = $this->env->getExtension("Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension");
-        $__internal_138da6ae8f6f79e0a98ec27ccede2e4b018bfb33315c3e71db25549903e126f0->enter($__internal_138da6ae8f6f79e0a98ec27ccede2e4b018bfb33315c3e71db25549903e126f0_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "knp_menu_base.html.twig"));
+        $__internal_5a59bb813ae11ffe290c93123042fdaaf6b958307bc13a467ae3d04d68013bf7 = $this->env->getExtension("Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension");
+        $__internal_5a59bb813ae11ffe290c93123042fdaaf6b958307bc13a467ae3d04d68013bf7->enter($__internal_5a59bb813ae11ffe290c93123042fdaaf6b958307bc13a467ae3d04d68013bf7_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "knp_menu_base.html.twig"));
 
-        $__internal_af5d9e41d672a6484fcabaf2854ae187b1f4befcbb41d889d80d89d03b2450f6 = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
-        $__internal_af5d9e41d672a6484fcabaf2854ae187b1f4befcbb41d889d80d89d03b2450f6->enter($__internal_af5d9e41d672a6484fcabaf2854ae187b1f4befcbb41d889d80d89d03b2450f6_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "knp_menu_base.html.twig"));
+        $__internal_08e13e8232ca7209e453893203dfdc887e10082ff2ad3d5ff3534604722ea51f = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
+        $__internal_08e13e8232ca7209e453893203dfdc887e10082ff2ad3d5ff3534604722ea51f->enter($__internal_08e13e8232ca7209e453893203dfdc887e10082ff2ad3d5ff3534604722ea51f_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "knp_menu_base.html.twig"));
 
         // line 1
         if ($this->getAttribute(($context["options"] ?? $this->getContext($context, "options")), "compressed", array())) {
@@ -28,10 +28,10 @@ class __TwigTemplate_abecaba2e9f9a71d3bcf40a6259819caa19a28205ad949731ad0eafd3c9
             $this->displayBlock("root", $context, $blocks);
         }
         
-        $__internal_138da6ae8f6f79e0a98ec27ccede2e4b018bfb33315c3e71db25549903e126f0->leave($__internal_138da6ae8f6f79e0a98ec27ccede2e4b018bfb33315c3e71db25549903e126f0_prof);
+        $__internal_5a59bb813ae11ffe290c93123042fdaaf6b958307bc13a467ae3d04d68013bf7->leave($__internal_5a59bb813ae11ffe290c93123042fdaaf6b958307bc13a467ae3d04d68013bf7_prof);
 
         
-        $__internal_af5d9e41d672a6484fcabaf2854ae187b1f4befcbb41d889d80d89d03b2450f6->leave($__internal_af5d9e41d672a6484fcabaf2854ae187b1f4befcbb41d889d80d89d03b2450f6_prof);
+        $__internal_08e13e8232ca7209e453893203dfdc887e10082ff2ad3d5ff3534604722ea51f->leave($__internal_08e13e8232ca7209e453893203dfdc887e10082ff2ad3d5ff3534604722ea51f_prof);
 
     }
 

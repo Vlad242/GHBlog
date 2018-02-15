@@ -13,7 +13,7 @@ class PostsFixtures extends Fixture implements DependentFixtureInterface
     {
         for ($i = 1; $i < 11; $i++) {
             $post = new Post();
-            $post->setDate(new \DateTime())
+            $post
                 ->setContent('Some content')
                 ->setTitle('Title'.$i)
                 ->setCategory($this->getReference('Category'.$i))

@@ -19,11 +19,10 @@ class Builder
     public function createMainMenu()
     {
         $menu = $this->factory->createItem('root');
-
         $menu->addChild('Homepage', ['route' => 'homepage']);
-        $menu->addChild('Posts', ['route' => 'postlist']);
         $menu->addChild('Categories', ['route' => 'categorylist']);
-        $menu->addChild('Search', ['route' => 'taglist']);
+        $menu->addChild('Add post', ['route' => 'newpost']);
+        $menu->addChild('Search', ['route' => 'search']);
         return $menu;
     }
 }

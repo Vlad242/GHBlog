@@ -16,17 +16,24 @@
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                             <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
+                            <span class="icon-bar">ffff</span>
+                            <span class="icon-bar">ggg</span>
+                            <span class="icon-bar">ddd</span>
                         </button>
                         <a class="navbar-brand" href="{{ path('homepage') }}">GeekBlog</a>
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <form class="navbar-form navbar-right">
-                            <a class="btn btn-default pull-left" href="{{ path("login") }}">
-                                <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> SignIn </a>
-                        </form>
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <a class="btn btn-default pull-left" href="{{ path("user_room") }}">
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> User room </a>
+                                <a class="btn btn-default pull-left" href="{{ path("logout") }}">
+                                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> SignOut </a>
+                            {% else %}
+                                <a class="btn btn-default pull-left" href="{{ path("login") }}">
+                                    <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> SignIn </a>
+                            {% endif %}
+                           </form>
                     </div>
                 </div>
             </nav>

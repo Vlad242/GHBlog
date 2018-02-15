@@ -114,6 +114,21 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\CategoryController::listAction',  '_route' => 'categorylist',);
         }
 
+        // newcomment
+        if (0 === strpos($pathinfo, '/newcomment') && preg_match('#^/newcomment/(?P<slug>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'newcomment')), array (  '_controller' => 'Geek\\BlogBundle\\Controller\\CommentController::newCommentAction',));
+        }
+
+        // newpost
+        if ('/newpost' === $trimmedPathinfo) {
+            $ret = array (  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::newCommentAction',  '_route' => 'newpost',);
+            if (substr($pathinfo, -1) !== '/') {
+                return array_replace($ret, $this->redirect($rawPathinfo.'/', 'newpost'));
+            }
+
+            return $ret;
+        }
+
         // homepage
         if ('' === $trimmedPathinfo) {
             $ret = array (  '_controller' => 'Geek\\BlogBundle\\Controller\\DefaultController::indexAction',  '_route' => 'homepage',);
@@ -152,30 +167,33 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return array('_route' => 'logout');
         }
 
+        // search
+        if (0 === strpos($pathinfo, '/search') && preg_match('#^/search(?:/(?P<str>[^/]++)(?:/(?P<limit>[^/]++))?)?$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'search')), array (  'str' => '',  'limit' => 5,  '_controller' => 'Geek\\BlogBundle\\Controller\\DefaultController::searchAction',));
+        }
+
         if (0 === strpos($pathinfo, '/post')) {
             // postlist
-            if ('/postlist' === $pathinfo) {
-                return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::listAction',  '_route' => 'postlist',);
+            if (0 === strpos($pathinfo, '/postlist') && preg_match('#^/postlist(?:/(?P<limit>[^/]++))?$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'postlist')), array (  'limit' => 5,  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::listAction',));
             }
 
-            // postByTag
-            if (0 === strpos($pathinfo, '/postByTag') && preg_match('#^/postByTag/(?P<tag>[^/]++)/?$#s', $pathinfo, $matches)) {
-                $ret = $this->mergeDefaults(array_replace($matches, array('_route' => 'postByTag')), array (  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::listByTagAction',));
-                if (substr($pathinfo, -1) !== '/') {
-                    return array_replace($ret, $this->redirect($rawPathinfo.'/', 'postByTag'));
+            if (0 === strpos($pathinfo, '/postBy')) {
+                // postByTag
+                if (0 === strpos($pathinfo, '/postByTag') && preg_match('#^/postByTag/(?P<tag>[^/]++)(?:/(?P<limit>[^/]++))?$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'postByTag')), array (  'limit' => 5,  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::listByTagAction',));
                 }
 
-                return $ret;
-            }
-
-            // postByCategory
-            if (0 === strpos($pathinfo, '/postByCategory') && preg_match('#^/postByCategory/(?P<category>[^/]++)/?$#s', $pathinfo, $matches)) {
-                $ret = $this->mergeDefaults(array_replace($matches, array('_route' => 'postByCategory')), array (  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::listByCategoryAction',));
-                if (substr($pathinfo, -1) !== '/') {
-                    return array_replace($ret, $this->redirect($rawPathinfo.'/', 'postByCategory'));
+                // postByCategory
+                if (0 === strpos($pathinfo, '/postByCategory') && preg_match('#^/postByCategory/(?P<category>[^/]++)(?:/(?P<limit>[^/]++))?$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'postByCategory')), array (  'limit' => 5,  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::listByCategoryAction',));
                 }
 
-                return $ret;
+                // postByUser
+                if (0 === strpos($pathinfo, '/postByUser') && preg_match('#^/postByUser/(?P<user>[^/]++)(?:/(?P<limit>[^/]++))?$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'postByUser')), array (  'limit' => 5,  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::listByUserAction',));
+                }
+
             }
 
             // viewPost
@@ -185,14 +203,19 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         }
 
+        // deletepost
+        if (0 === strpos($pathinfo, '/deletepost') && preg_match('#^/deletepost/(?P<post>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'deletepost')), array (  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::deletePostAction',));
+        }
+
         // taglist
         if ('/Taglist' === $pathinfo) {
             return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\TagController::listAction',  '_route' => 'taglist',);
         }
 
         // user_room
-        if ('/user/room' === $pathinfo) {
-            return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\UserController::indexAction',  '_route' => 'user_room',);
+        if (0 === strpos($pathinfo, '/user') && preg_match('#^/user(?:/(?P<limit>[^/]++))?$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'user_room')), array (  'limit' => 5,  '_controller' => 'Geek\\BlogBundle\\Controller\\UserController::indexAction',));
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();

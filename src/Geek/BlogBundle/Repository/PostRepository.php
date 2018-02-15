@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Geek\BlogBundle\Entity\Category;
 use Geek\BlogBundle\Entity\Post;
 use Geek\BlogBundle\Entity\Tag;
+use Geek\BlogBundle\Entity\User;
 
 class PostRepository extends EntityRepository
 {
@@ -15,7 +16,7 @@ class PostRepository extends EntityRepository
     public function findAllQuery()
     {
         return $this->createQueryBuilder('p')
-            ->orderBy('p.date', 'DESC')
+            ->orderBy('p.created', 'DESC')
             ->getQuery()
             ;
     }
@@ -58,5 +59,30 @@ class PostRepository extends EntityRepository
             ->where('p.id = :id')
             ->setParameter('id', $id)
             ->getQuery()->getResult();
+    }
+
+    /**
+     * @param User $user
+     * @return \Doctrine\ORM\Query|Post[]
+     */
+    public function findByUser(User $user)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery();
+    }
+
+    /**
+     * @param string $str
+     * @return \Doctrine\ORM\Query
+     */
+    public function findByString($str)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.title LIKE :str')
+            ->orWhere('p.content LIKE :str')
+            ->setParameter('str', $str)
+            ->getQuery();
     }
 }

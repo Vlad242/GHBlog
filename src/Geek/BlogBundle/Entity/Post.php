@@ -5,8 +5,7 @@ namespace Geek\BlogBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Tests\Fixtures\ToString;
-
+use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\Entity(repositoryClass="Geek\BlogBundle\Repository\PostRepository")
  */
@@ -27,13 +26,6 @@ class Post
      * @ORM\Column(name="Content", type="text")
      */
     private $content;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="Date", type="datetime")
-     */
-    private $date;
 
     /**
      * @var string
@@ -66,6 +58,35 @@ class Post
      */
     private $comments;
 
+    /**
+     * @var \DateTime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
+    /**
+     * @var \DateTime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
+
+    /**
+     * @var \DateTime $contentChanged
+     *
+     * @ORM\Column(name="content_changed", type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="change", field={"title", "content"})
+     */
+    private $contentChanged;
+
+    /**
+     * @Gedmo\Slug(fields={"title", "id"})
+     * @ORM\Column(length=128, unique=true)
+     */
+    private $slug;
 
     public  function  __construct ()  {
         $this->comments = new ArrayCollection();
@@ -98,26 +119,6 @@ class Post
     public function getContent()
     {
         return $this->content;
-    }
-
-    /**
-     * @param \DateTime $date
-     *
-     * @return $this
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getDate()
-    {
-        return $this->date;
     }
 
     /**
@@ -237,6 +238,38 @@ class Post
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getContentChanged()
+    {
+        return $this->contentChanged;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }
 

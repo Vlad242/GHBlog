@@ -3,7 +3,7 @@
     {{ wo_render_breadcrumbs() }}
     <div class="well">
         <h2> {{post.title}}</h2>
-        <h5><span class="glyphicon glyphicon-time"></span>Post by {{ post.user.getUsername }}, {{ post.date | date('Y-m-d') }}</h5>
+        <h5><span class="glyphicon glyphicon-time"></span>Post by {{ post.user.getUsername }}, {{ post.created | date('Y-m-d') }}</h5>
         {% for tag in post.getTags %}
         <a class="btn-xs btn-primary" style="margin: 1px" href="{{ path("postByTag", {'tag' : tag.getId })}}">
             <span class="glyphicon glyphicon-tag"></span> {{ tag.getName }} </a>
@@ -19,17 +19,21 @@
         {% for comment in post.comments %}
         <div class="well">
             <h3> {{comment.getUser().getName()}}</h3>
-            <h5><span class="glyphicon glyphicon-time"></span>{{ comment.date | date('Y-m-d') }}</h5>
+            <h5><span class="glyphicon glyphicon-time"></span>{{ comment.created | date('Y-m-d') }}</h5>
             {{ comment.content}}
         </div>
         {% endfor %}
     </div>
-{% endblock %}
-
-{% block comment %}
-    fffff
+    {% block comment %}
+        <div class="well">
+            <h3>Comment: <span class="glyphicon glyphicon-pencil"></span></h3>
+            {{ form(form) }}
+        </div>
+    {% endblock %}
 {% endblock %}
 
 {% block right %}
-    {{ render(controller('GeekBlogBundle:Tag:list')) }}
+    <div class="well">
+        {{ render(controller('GeekBlogBundle:Tag:list')) }}
+    </div>
 {% endblock %}
