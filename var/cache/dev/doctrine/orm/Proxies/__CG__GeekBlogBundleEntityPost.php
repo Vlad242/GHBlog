@@ -430,4 +430,26 @@ class Post extends \Geek\BlogBundle\Entity\Post implements \Doctrine\ORM\Proxy\P
         return parent::removeLike($user);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getLikeCount()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLikeCount', []);
+
+        return parent::getLikeCount();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isLiked(\Geek\BlogBundle\Entity\User $user)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isLiked', [$user]);
+
+        return parent::isLiked($user);
+    }
+
 }

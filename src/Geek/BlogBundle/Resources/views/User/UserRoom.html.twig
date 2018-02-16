@@ -27,6 +27,21 @@
                     {{ post.content}}
                 </p>
                 <div>
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        {% if post.isLiked(app.user)  %}
+                            <a style="position: absolute; left: 10%; color: Red" href="{{ path("likecheck", {'post' : post.getId() })}}">
+                                <span class="glyphicon glyphicon-heart"></span> {{ post.getLikeCount() }} </a>
+                        {% else %}
+                            <a style="position: absolute; left: 10%; color: Blue" href="{{ path("likecheck", {'post' : post.getId() })}}">
+                                <span class="glyphicon glyphicon-heart"></span> {{ post.getLikeCount() }} </a>
+                        {% endif %}
+                    {% else %}
+                        <a style="position: absolute; left: 10%; color: Blue" href="{{ path("likecheck", {'post' : post.getId() })}}">
+                            <span class="glyphicon glyphicon-heart"></span> {{ post.getLikeCount() }} </a>
+                    {% endif %}
+                </div>
+                <br>
+                <div>
                     <a style="position: absolute; left: 10%" class="btn-xs btn-danger" href="{{ path("deletepost", {'post' : post.getId() })}}">
                         <span class="glyphicon glyphicon-chevron-right"></span> Delete post </a>
 
@@ -36,6 +51,7 @@
                     <a  style="position: absolute; right: 10%" class="btn-xs btn-primary" href="{{ path("postByCategory", {'category' : post.getCategory().getId() })}}">
                         <span class="glyphicon glyphicon-chevron-right"></span> {{ post.getCategory().getName() }} </a>
                 </div>
+                <br>
             </div>
         {% endfor %}
         <div class="navigation" align="center">

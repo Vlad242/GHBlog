@@ -64,10 +64,10 @@ class User extends \Geek\BlogBundle\Entity\User implements \Doctrine\ORM\Proxy\P
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'name', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'username', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'plainPassword', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'roles', 'locked', 'enabled', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'comments', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'posts', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'likes'];
+            return ['__isInitialized__', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'name', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'username', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'email', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'plainPassword', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'roles', 'locked', 'enabled', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'comments', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'posts', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'likes', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'subscribers'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'name', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'username', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'plainPassword', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'roles', 'locked', 'enabled', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'comments', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'posts', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'likes'];
+        return ['__isInitialized__', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'id', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'name', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'username', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'email', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'password', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'plainPassword', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'roles', 'locked', 'enabled', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'comments', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'posts', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'likes', '' . "\0" . 'Geek\\BlogBundle\\Entity\\User' . "\0" . 'subscribers'];
     }
 
     /**
@@ -516,6 +516,83 @@ class User extends \Geek\BlogBundle\Entity\User implements \Doctrine\ORM\Proxy\P
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeLike', [$post]);
 
         return parent::removeLike($post);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEmail()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEmail', []);
+
+        return parent::getEmail();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setEmail($email)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEmail', [$email]);
+
+        return parent::setEmail($email);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getSubscribers()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSubscribers', []);
+
+        return parent::getSubscribers();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getSubscriberCount()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSubscriberCount', []);
+
+        return parent::getSubscriberCount();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function haveThisSubscriber(\Geek\BlogBundle\Entity\User $user)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'haveThisSubscriber', [$user]);
+
+        return parent::haveThisSubscriber($user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addSubscriber(\Geek\BlogBundle\Entity\User $user)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addSubscriber', [$user]);
+
+        return parent::addSubscriber($user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeSubscriber(\Geek\BlogBundle\Entity\User $user)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeSubscriber', [$user]);
+
+        return parent::removeSubscriber($user);
     }
 
 }

@@ -98,6 +98,7 @@ class Post
     public  function  __construct ()  {
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     /**
@@ -322,6 +323,18 @@ class Post
     public  function getLikeCount()
     {
         return $this->likes->count();
+    }
+
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function isLiked(User $user)
+    {
+        if ($this->likes->contains($user)){
+            return true;
+        }
+        return false;
     }
 }
 

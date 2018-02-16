@@ -27,7 +27,22 @@
                 </a>
                 <h5><span class="glyphicon glyphicon-time"></span>Post by
                     <a href="{{ path("postByUser", {'user' :  post.getUser().getId() })}}">
-                        <span class="glyphicon glyphicon-user"></span> {{  post.user.getUsername  }} </a>, {{ post.created | date('Y-m-d') }} (last update: {{ post.updated | date('Y-m-d') }})</h5>
+                        <span class="glyphicon glyphicon-user"></span> {{  post.user.getUsername  }} </a>
+                    {#/SUBSCRIBER/#}|
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        {% if app.user.haveThisSubscriber(post.getUser())%}
+                            <a style="color: Green" href="{{ path("subscribecheck", {'user' : post.getUser().getId() })}}">
+                                <span class="glyphicon glyphicon-paperclip"></span> Subscribed </a>
+                        {% else %}
+                            <a style="color: Red" href="{{ path("subscribecheck", {'user' : post.getUser().getId() })}}">
+                                <span class="glyphicon glyphicon-paperclip"></span> not Subscribed </a>
+                        {% endif %}
+                    {% else %}
+                        <a style="color: Grey" href="{{ path("subscribecheck", {'user' : post.getUser().getId() })}}">
+                            <span class="glyphicon glyphicon-paperclip"></span> SignIn </a>
+                    {% endif %}
+                    |{#/SUBSCRIBER/#}
+                    , {{ post.created | date('Y-m-d') }} (last update: {{ post.updated | date('Y-m-d') }})</h5>
                 {% for tag in post.getTags %}
                 <a class="btn-xs btn-primary" style="margin: 1px" href="{{ path("postByTag", {'tag' : tag.getId })}}">
                     <span class="glyphicon glyphicon-tag"></span> {{ tag.getName }} </a>
@@ -36,8 +51,19 @@
                     {{ post.content}}
                 </p>
                 <div>
-                    <a style="position: absolute; left: 10%; color: Red" href="{{ path("likecheck", {'post' : post.getId() })}}">
-                        <span class="glyphicon glyphicon-heart"></span> {{ post.getLikeCount() }} </a>
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        {% if post.isLiked(app.user)  %}
+                            <a style="position: absolute; left: 10%; color: Red" href="{{ path("likecheck", {'post' : post.getId() })}}">
+                                <span class="glyphicon glyphicon-heart"></span> {{ post.getLikeCount() }} </a>
+                        {% else %}
+                            <a style="position: absolute; left: 10%; color: Blue" href="{{ path("likecheck", {'post' : post.getId() })}}">
+                                <span class="glyphicon glyphicon-heart"></span> {{ post.getLikeCount() }} </a>
+                        {% endif %}
+                    {% else %}
+                        <a style="position: absolute; left: 10%; color: Blue" href="{{ path("likecheck", {'post' : post.getId() })}}">
+                            <span class="glyphicon glyphicon-heart"></span> {{ post.getLikeCount() }} </a>
+                    {% endif %}
+
                     <a style="position: absolute; right: 10%" class="btn-xs btn-primary" href="{{ path("postByCategory", {'category' : post.getCategory().getId() })}}">
                         <span class="glyphicon glyphicon-chevron-right"></span> {{ post.getCategory().getName() }} </a>
                 </div>

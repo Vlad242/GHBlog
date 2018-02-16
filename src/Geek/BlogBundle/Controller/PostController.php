@@ -135,7 +135,7 @@ class PostController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function newCommentAction(Request $request)
+    public function newPostAction(Request $request)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
 
@@ -153,7 +153,6 @@ class PostController extends Controller
             return $this->redirectToRoute('user_room');
         }
 
-        $this->addFlash('danger', 'Something wrong!');
         return $this->render('@GeekBlog/Post/NewPost.html.twig', ['id' => $post->getId(),'form'=> $form->createView()]);
     }
 

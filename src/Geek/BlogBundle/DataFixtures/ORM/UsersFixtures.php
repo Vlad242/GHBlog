@@ -23,8 +23,8 @@ class UsersFixtures extends Fixture
             $password = $this->encoder->encodePassword($user, 'user'.$i);
             $user->setUsername('User'.$i)
                 ->setPassword($password)
-                ->setName('User'.$i);
-
+                ->setName('User'.$i)
+                ->setEmail('user'.$i.'@gmail.com');
             $manager->persist($user);
 
             $this->setReference('user'.$i, $user);

@@ -46,6 +46,15 @@ class User implements AdvancedUserInterface
     /**
      * @var string
      *
+     * @Assert\NotBlank(message="Email should not be blank.")
+     * @Assert\Length(max="30")
+     * @ORM\Column(type="string", length=30, unique=true)
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=191)
      */
     private $password;
@@ -95,6 +104,17 @@ class User implements AdvancedUserInterface
      */
     private $likes;
 
+    /**
+     * @var  ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Geek\BlogBundle\Entity\User")
+     * @ORM\JoinTable(name="subscribers",
+     *     joinColumns={@ORM\JoinColumn(name="user_source", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="user_target", referencedColumnName="id")})
+     */
+    private $subscribers;
+
+
     public function __construct()
     {
         $this->setRoles('ROLE_USER');
@@ -102,6 +122,8 @@ class User implements AdvancedUserInterface
         $this->setEnabled(true);
         $this->comments = new ArrayCollection();
         $this->posts = new ArrayCollection();
+        $this->likes = new ArrayCollection();
+        $this->subscribers = new ArrayCollection();
     }
 
     /**
@@ -382,6 +404,72 @@ class User implements AdvancedUserInterface
     public function removeLike (Post $post)
     {
         $this->likes->removeElement($post);
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSubscribers()
+    {
+        return $this->subscribers->toArray();
+    }
+
+    /**
+     * @return int
+     */
+    public function getSubscriberCount()
+    {
+        return $this->subscribers->count();
+    }
+
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function haveThisSubscriber(User $user)
+    {
+        if ($this->subscribers->contains($user)){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function addSubscriber(User $user)
+    {
+        if (!$this->subscribers->contains($user)){
+            $this->subscribers->add($user);
+            $user->addSubscriber($this);
+        }
+    }
+
+    /**
+     * @param User $user
+     */
+    public function removeSubscriber (User $user)
+    {
+        if ($this->subscribers->contains($user)){
+            $this->subscribers->removeElement($user);
+            $user->removeSubscriber($this);
+        }
     }
 }
 

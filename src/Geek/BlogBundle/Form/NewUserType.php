@@ -4,6 +4,7 @@ namespace Geek\BlogBundle\Form;
 
 use Geek\BlogBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,14 +19,15 @@ class NewUserType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('username', TextType::class)
-            ->add('plainPassword', RepeatedType::class, array(
+            ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'first_options'  => array('label' => 'Password'),
-                'second_options' => array('label' => 'Repeat Password'),
+                'first_options'  => ['label' => 'Password'],
+                'second_options' => ['label' => 'Repeat Password'],
                 'constraints' => [
                     new NotBlank()
                 ]
-            ))
+            ])
+            ->add('email', EmailType::class, ['label' => 'Email'])
         ;
     }
 

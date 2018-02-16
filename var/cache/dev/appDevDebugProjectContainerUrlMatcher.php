@@ -121,7 +121,7 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         // newpost
         if ('/newpost' === $trimmedPathinfo) {
-            $ret = array (  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::newCommentAction',  '_route' => 'newpost',);
+            $ret = array (  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::newPostAction',  '_route' => 'newpost',);
             if (substr($pathinfo, -1) !== '/') {
                 return array_replace($ret, $this->redirect($rawPathinfo.'/', 'newpost'));
             }
@@ -178,6 +178,11 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
         // search
         if (0 === strpos($pathinfo, '/search') && preg_match('#^/search(?:/(?P<str>[^/]++)(?:/(?P<limit>[^/]++))?)?$#s', $pathinfo, $matches)) {
             return $this->mergeDefaults(array_replace($matches, array('_route' => 'search')), array (  'str' => '',  'limit' => 5,  '_controller' => 'Geek\\BlogBundle\\Controller\\DefaultController::searchAction',));
+        }
+
+        // subscribecheck
+        if (0 === strpos($pathinfo, '/subscribecheck') && preg_match('#^/subscribecheck/(?P<user>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'subscribecheck')), array (  '_controller' => 'Geek\\BlogBundle\\Controller\\UserController::likesCheckerAction',));
         }
 
         if (0 === strpos($pathinfo, '/post')) {
