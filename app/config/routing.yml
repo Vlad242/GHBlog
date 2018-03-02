@@ -7,3 +7,13 @@ login_check:
 
 logout:
     path: /logout
+
+app.swagger_ui:
+    path: /api-doc
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+
+_posts:
+    type:     rest
+    resource: Geek\BlogBundle\Controller\Api\PostsController
+    prefix: /api

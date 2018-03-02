@@ -104,9 +104,34 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         }
 
-        // admin_room
-        if ('/admin/room' === $pathinfo) {
-            return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\AdminController::indexAction',  '_route' => 'admin_room',);
+        elseif (0 === strpos($pathinfo, '/a')) {
+            // admin_room
+            if ('/admin/room' === $pathinfo) {
+                return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\AdminController::indexAction',  '_route' => 'admin_room',);
+            }
+
+            // app.swagger_ui
+            if ('/api-doc' === $pathinfo) {
+                if ('GET' !== $canonicalMethod) {
+                    $allow[] = 'GET';
+                    goto not_appswagger_ui;
+                }
+
+                return array (  '_controller' => 'nelmio_api_doc.controller.swagger_ui',  '_route' => 'app.swagger_ui',);
+            }
+            not_appswagger_ui:
+
+            // get_post
+            if (0 === strpos($pathinfo, '/api/posts') && preg_match('#^/api/posts/(?P<id>[^/\\.]++)(?:\\.(?P<_format>json|xml|html))?$#s', $pathinfo, $matches)) {
+                if ('GET' !== $canonicalMethod) {
+                    $allow[] = 'GET';
+                    goto not_get_post;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'get_post')), array (  '_controller' => 'Geek\\BlogBundle\\Controller\\Api\\PostsController:getAction',  '_format' => 'json',));
+            }
+            not_get_post:
+
         }
 
         // categorylist

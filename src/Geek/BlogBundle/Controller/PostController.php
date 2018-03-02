@@ -149,8 +149,8 @@ class PostController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
             $em->flush();
-
-            return $this->redirectToRoute('user_room');
+            dump($post);
+            //return $this->redirectToRoute('user_room');
         }
 
         return $this->render('@GeekBlog/Post/NewPost.html.twig', ['id' => $post->getId(),'form'=> $form->createView()]);

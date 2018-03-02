@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation as Serializer;
 /**
  * @ORM\Entity(repositoryClass="Geek\BlogBundle\Repository\PostRepository")
  */
@@ -17,6 +18,7 @@ class Post
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"show_post"})
      */
     private $id;
 
@@ -198,6 +200,20 @@ class Post
     {
         $tag->addPost($this);
         $this->tags[] = $tag;
+
+        return $this;
+    }
+
+    /**
+     * @param Collection|Tag[] $tags
+     * @return Post
+     */
+    public function setTags($tags): Post
+    {
+        foreach ($tags as $tag) {
+            $tag->addPost($this);
+        }
+        $this->tags = $tags;
 
         return $this;
     }

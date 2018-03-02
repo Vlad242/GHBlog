@@ -75,7 +75,6 @@ class Tag
     public function addPost(Post $post)
     {
         $this->posts[] = $post;
-
         return $this;
     }
 
