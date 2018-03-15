@@ -705,7 +705,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-50"/>
-      <argument type="service" id="service_locator.uiy6iec"/>
+      <argument type="service" id="service_locator.tazc_ks"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-100"/>
@@ -4751,6 +4751,10 @@
         <argument key="viewhandler" type="service" id="fos_rest.view_handler.default" on-invalid="ignore"/>
       </argument>
     </service>
+    <service id="service_locator.sow4d.c" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection"/>
+    </service>
     <service id="service_locator.ptbxkop" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection"/>
@@ -4795,7 +4799,7 @@
       <tag name="container.service_locator"/>
       <argument type="collection"/>
     </service>
-    <service id="service_locator.uiy6iec" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.tazc_ks" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="Geek\BlogBundle\Controller\Api\BaseRestController:setViewHandler" type="service" id="service_locator.r15f9hk"/>

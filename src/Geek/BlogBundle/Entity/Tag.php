@@ -68,6 +68,14 @@ class Tag
     }
 
     /**
+     * @param Collection|Post[] $posts
+     */
+    public function setPosts($posts): void
+    {
+        $this->posts = $posts;
+    }
+
+    /**
      * @param Post $post
      *
      * @return Tag

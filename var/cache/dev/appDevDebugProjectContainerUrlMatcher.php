@@ -121,16 +121,30 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             }
             not_appswagger_ui:
 
-            // get_post
-            if (0 === strpos($pathinfo, '/api/posts') && preg_match('#^/api/posts/(?P<id>[^/\\.]++)(?:\\.(?P<_format>json|xml|html))?$#s', $pathinfo, $matches)) {
-                if ('GET' !== $canonicalMethod) {
-                    $allow[] = 'GET';
-                    goto not_get_post;
-                }
+            if (0 === strpos($pathinfo, '/api/posts')) {
+                // get_post
+                if (preg_match('#^/api/posts/(?P<id>[^/\\.]++)(?:\\.(?P<_format>json|xml|html))?$#s', $pathinfo, $matches)) {
+                    if ('GET' !== $canonicalMethod) {
+                        $allow[] = 'GET';
+                        goto not_get_post;
+                    }
 
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'get_post')), array (  '_controller' => 'Geek\\BlogBundle\\Controller\\Api\\PostsController:getAction',  '_format' => 'json',));
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'get_post')), array (  '_controller' => 'Geek\\BlogBundle\\Controller\\Api\\PostsController:getAction',  '_format' => 'json',));
+                }
+                not_get_post:
+
+                // get_post_posts
+                if (preg_match('#^/api/posts/(?P<page>[^/]++)/posts/(?P<limit>[^/\\.]++)(?:\\.(?P<_format>json|xml|html))?$#s', $pathinfo, $matches)) {
+                    if ('GET' !== $canonicalMethod) {
+                        $allow[] = 'GET';
+                        goto not_get_post_posts;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'get_post_posts')), array (  '_controller' => 'Geek\\BlogBundle\\Controller\\Api\\PostsController:getPostsAction',  '_format' => 'json',));
+                }
+                not_get_post_posts:
+
             }
-            not_get_post:
 
         }
 

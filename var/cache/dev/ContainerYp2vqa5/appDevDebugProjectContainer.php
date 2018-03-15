@@ -1,6 +1,6 @@
 <?php
 
-namespace ContainerDnrmwdp;
+namespace ContainerYp2vqa5;
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -303,6 +303,7 @@ class appDevDebugProjectContainer extends Container
             'fos_rest.request.param_fetcher' => __DIR__.'/getFosRest_Request_ParamFetcherService.php',
             'fos_rest.request.param_fetcher.reader' => __DIR__.'/getFosRest_Request_ParamFetcher_ReaderService.php',
             'fos_rest.serializer' => __DIR__.'/getFosRest_SerializerService.php',
+            'fos_rest.view_response_listener' => __DIR__.'/getFosRest_ViewResponseListenerService.php',
             'fragment.handler' => __DIR__.'/getFragment_HandlerService.php',
             'fragment.renderer.hinclude' => __DIR__.'/getFragment_Renderer_HincludeService.php',
             'fragment.renderer.inline' => __DIR__.'/getFragment_Renderer_InlineService.php',
@@ -559,6 +560,7 @@ class appDevDebugProjectContainer extends Container
             'fos_rest.request.param_fetcher' => true,
             'fos_rest.request.param_fetcher.reader' => true,
             'fos_rest.serializer' => true,
+            'fos_rest.view_response_listener' => true,
             'fragment.handler' => true,
             'fragment.listener' => true,
             'fragment.renderer.hinclude' => true,
@@ -1600,6 +1602,9 @@ class appDevDebugProjectContainer extends Container
         $instance->addListener('kernel.controller_arguments', array(0 => function () {
             return ${($_ = isset($this->services['framework_extra_bundle.event.is_granted']) ? $this->services['framework_extra_bundle.event.is_granted'] : $this->getFrameworkExtraBundle_Event_IsGrantedService()) && false ?: '_'};
         }, 1 => 'onKernelControllerArguments'), 0);
+        $instance->addListener('kernel.view', array(0 => function () {
+            return ${($_ = isset($this->services['fos_rest.view_response_listener']) ? $this->services['fos_rest.view_response_listener'] : $this->load(__DIR__.'/getFosRest_ViewResponseListenerService.php')) && false ?: '_'};
+        }, 1 => 'onKernelView'), 30);
         $instance->addListener('console.command', array(0 => function () {
             return ${($_ = isset($this->services['debug.dump_listener']) ? $this->services['debug.dump_listener'] : $this->load(__DIR__.'/getDebug_DumpListenerService.php')) && false ?: '_'};
         }, 1 => 'configure'), 1024);
