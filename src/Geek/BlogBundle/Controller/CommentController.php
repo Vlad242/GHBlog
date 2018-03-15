@@ -34,10 +34,10 @@ class CommentController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
-            return $this->redirectToRoute('viewPost', ['id' => $post->getId()]);
+            return $this->redirectToRoute('viewPost', ['slug' => $post->getSlug()]);
         }
 
         $this->addFlash('danger', 'Something wrong!');
-        return $this->redirectToRoute('viewPost', ['id' => $post->getId()]);
+        return $this->redirectToRoute('viewPost', ['id' => $post->getSlug()]);
     }
 }

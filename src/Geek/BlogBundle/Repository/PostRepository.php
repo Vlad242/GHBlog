@@ -50,15 +50,16 @@ class PostRepository extends EntityRepository
     }
 
     /**
-     * @param Post $id
-     * @return Post[]
+     * @param Post $slug
+     * @return Post
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function findById($id)
+    public function findById($slug)
     {
         return $this->createQueryBuilder('p')
-            ->where('p.id = :id')
-            ->setParameter('id', $id)
-            ->getQuery()->getResult();
+            ->where('p.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()->getOneOrNullResult();
     }
 
     /**

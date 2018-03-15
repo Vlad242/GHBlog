@@ -249,7 +249,7 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             }
 
             // viewPost
-            if (preg_match('#^/post/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+            if (preg_match('#^/post/(?P<slug>[^/]++)$#s', $pathinfo, $matches)) {
                 return $this->mergeDefaults(array_replace($matches, array('_route' => 'viewPost')), array (  '_controller' => 'Geek\\BlogBundle\\Controller\\PostController::viewPostAction',));
             }
 

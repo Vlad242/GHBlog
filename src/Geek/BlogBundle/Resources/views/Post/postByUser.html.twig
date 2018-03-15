@@ -22,7 +22,7 @@
         </div>
         {% for post in pagination %}
             <div class="well">
-                <a href="{{ path("viewPost", {'id' : post.getId() })}}">
+                <a href="{{ path("viewPost", {'slug' : post.getSlug() })}}">
                     <h2> {{post.title}}</h2>
                 </a>
                 <h5><span class="glyphicon glyphicon-time"></span>Post by

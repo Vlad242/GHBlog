@@ -108,14 +108,14 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/post/{id}", name="viewPost")
-     * @param $id
+     * @Route("/post/{slug}", name="viewPost")
+     * @param $slug
      * @return Response
      */
-    public function viewPostAction($id)
+    public function viewPostAction($slug)
     {
         $em = $this->getDoctrine()->getManager();
-        $post = $em->getRepository('GeekBlogBundle:Post')->find($id);
+        $post = $em->getRepository('GeekBlogBundle:Post')->findById($slug);
 
         if (!$post) {
             $this->addFlash('danger', 'Something wrong!');
@@ -123,8 +123,8 @@ class PostController extends Controller
 
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Home", $this->get("router")->generate("homepage"));
-        $breadcrumbs->addRouteItem("Post №".$id, "viewPost", [
-            'id' => $id,
+        $breadcrumbs->addRouteItem("Post-".$slug, "viewPost", [
+            'slug' => $slug,
         ]);
         $form = $this->createForm(NewCommentType::class, null, ['action' => $this->generateUrl('newcomment', ['post_id' => $post->getId()])]);
         return $this->render('@GeekBlog/Post/viewPost.html.twig', ['post' => $post, 'form'=> $form->createView()]);
@@ -149,7 +149,8 @@ class PostController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
             $em->flush();
-            return $this->redirectToRoute('user_room');
+            dump($post);
+            //return $this->redirectToRoute('user_room');
         }
 
         return $this->render('@GeekBlog/Post/NewPost.html.twig', ['id' => $post->getId(),'form'=> $form->createView()]);
