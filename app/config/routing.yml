@@ -17,3 +17,8 @@ _posts:
     type:     rest
     resource: Geek\BlogBundle\Controller\Api\PostsController
     prefix: /api
+
+_category:
+    type:     rest
+    resource: Geek\BlogBundle\Controller\Api\CategoryController
+    prefix: /api

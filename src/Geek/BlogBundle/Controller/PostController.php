@@ -111,6 +111,7 @@ class PostController extends Controller
      * @Route("/post/{slug}", name="viewPost")
      * @param $slug
      * @return Response
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function viewPostAction($slug)
     {
@@ -149,8 +150,8 @@ class PostController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
             $em->flush();
-            dump($post);
-            //return $this->redirectToRoute('user_room');
+
+            return $this->redirectToRoute('user_room');
         }
 
         return $this->render('@GeekBlog/Post/NewPost.html.twig', ['id' => $post->getId(),'form'=> $form->createView()]);

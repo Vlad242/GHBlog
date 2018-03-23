@@ -95,9 +95,9 @@ stof_doctrine_extensions:
 nelmio_api_doc:
     documentation:
         info:
-            title: My App
-            description: This is an awesome app!
-            version: 1.0.0
+            title: GeekBlog
+            description: This is an awesome geek app!
+            version: 1.0.1
     areas:
           path_patterns: # an array of regexps
               - ^/api(?!/doc$)

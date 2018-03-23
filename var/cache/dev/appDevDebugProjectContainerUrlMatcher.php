@@ -104,12 +104,12 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         }
 
-        elseif (0 === strpos($pathinfo, '/a')) {
-            // admin_room
-            if ('/admin/room' === $pathinfo) {
-                return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\AdminController::indexAction',  '_route' => 'admin_room',);
-            }
+        // admin_room
+        if ('/admin/room' === $pathinfo) {
+            return array (  '_controller' => 'Geek\\BlogBundle\\Controller\\AdminController::indexAction',  '_route' => 'admin_room',);
+        }
 
+        if (0 === strpos($pathinfo, '/api')) {
             // app.swagger_ui
             if ('/api-doc' === $pathinfo) {
                 if ('GET' !== $canonicalMethod) {
@@ -145,6 +145,17 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                 not_get_post_posts:
 
             }
+
+            // new_category_category
+            if (0 === strpos($pathinfo, '/api/categories/categories/new') && preg_match('#^/api/categories/categories/new(?:\\.(?P<_format>json|xml|html))?$#s', $pathinfo, $matches)) {
+                if ('GET' !== $canonicalMethod) {
+                    $allow[] = 'GET';
+                    goto not_new_category_category;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'new_category_category')), array (  '_controller' => 'Geek\\BlogBundle\\Controller\\Api\\CategoryController:newCategoryAction',  '_format' => 'json',));
+            }
+            not_new_category_category:
 
         }
 

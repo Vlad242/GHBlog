@@ -48,6 +48,14 @@ class Tag
     }
 
     /**
+     * @return Collection|Post[]
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+    /**
      * @param string $name
      *
      * @return Tag

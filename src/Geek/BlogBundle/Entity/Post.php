@@ -312,6 +312,7 @@ class Post
         $this->likes = $likes;
     }
 
+
     /**
      * @param User $user
      * @return $this
@@ -327,7 +328,7 @@ class Post
     /**
      * @param User $user
      */
-    public function removeLike(User $user)
+    public function removeLike (User $user)
     {
         $this->likes->removeElement($user);
     }

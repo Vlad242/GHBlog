@@ -620,6 +620,9 @@
     <service id="Geek\BlogBundle\Controller\Api\BaseRestController" class="Geek\BlogBundle\Controller\Api\BaseRestController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
     </service>
+    <service id="Geek\BlogBundle\Controller\Api\CategoryController" class="Geek\BlogBundle\Controller\Api\CategoryController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+    </service>
     <service id="Geek\BlogBundle\Controller\Api\PostsController" class="Geek\BlogBundle\Controller\Api\PostsController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
     </service>
@@ -705,7 +708,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-50"/>
-      <argument type="service" id="service_locator.tazc_ks"/>
+      <argument type="service" id="service_locator._xa8mc2"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-100"/>
@@ -4487,9 +4490,9 @@
       <tag name="nelmio_api_doc.describer.default" priority="1000"/>
       <argument type="collection">
         <argument key="info" type="collection">
-          <argument key="title">My App</argument>
-          <argument key="description">This is an awesome app!</argument>
-          <argument key="version">1.0.0</argument>
+          <argument key="title">GeekBlog</argument>
+          <argument key="description">This is an awesome geek app!</argument>
+          <argument key="version">1.0.1</argument>
         </argument>
       </argument>
     </service>
@@ -4705,6 +4708,8 @@
     <service id="abstract.instanceof.Geek\BlogBundle\Controller\AdminController" class="Geek\BlogBundle\Controller\AdminController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.Geek\BlogBundle\Controller\Api\BaseRestController" class="Geek\BlogBundle\Controller\Api\BaseRestController" public="true" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.Geek\BlogBundle\Controller\Api\BaseRestController" class="Geek\BlogBundle\Controller\Api\BaseRestController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.Geek\BlogBundle\Controller\Api\CategoryController" class="Geek\BlogBundle\Controller\Api\CategoryController" public="true" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.Geek\BlogBundle\Controller\Api\CategoryController" class="Geek\BlogBundle\Controller\Api\CategoryController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.Geek\BlogBundle\Controller\Api\PostsController" class="Geek\BlogBundle\Controller\Api\PostsController" public="true" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.Geek\BlogBundle\Controller\Api\PostsController" class="Geek\BlogBundle\Controller\Api\PostsController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.Geek\BlogBundle\Controller\CategoryController" class="Geek\BlogBundle\Controller\CategoryController" public="true" autowire="true" abstract="true"/>
@@ -4750,6 +4755,10 @@
       <argument type="collection">
         <argument key="viewhandler" type="service" id="fos_rest.view_handler.default" on-invalid="ignore"/>
       </argument>
+    </service>
+    <service id="service_locator.drabo.f" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection"/>
     </service>
     <service id="service_locator.sow4d.c" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
@@ -4799,12 +4808,14 @@
       <tag name="container.service_locator"/>
       <argument type="collection"/>
     </service>
-    <service id="service_locator.tazc_ks" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator._xa8mc2" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="Geek\BlogBundle\Controller\Api\BaseRestController:setViewHandler" type="service" id="service_locator.r15f9hk"/>
+        <argument key="Geek\BlogBundle\Controller\Api\CategoryController:setViewHandler" type="service" id="service_locator.r15f9hk"/>
         <argument key="Geek\BlogBundle\Controller\Api\PostsController:setViewHandler" type="service" id="service_locator.r15f9hk"/>
         <argument key="Geek\BlogBundle\Controller\Api\BaseRestController::setViewHandler" type="service" id="service_locator.r15f9hk"/>
+        <argument key="Geek\BlogBundle\Controller\Api\CategoryController::setViewHandler" type="service" id="service_locator.r15f9hk"/>
         <argument key="Geek\BlogBundle\Controller\Api\PostsController::setViewHandler" type="service" id="service_locator.r15f9hk"/>
       </argument>
     </service>
