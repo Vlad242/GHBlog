@@ -15,8 +15,6 @@ class AdminController extends Controller
      */
     public function indexAction(UserInterface $user)
     {
-        return $this->render('@GeekBlog/Admin/AdminRoom.html.twig', [
-            'username' => $user->getUsername(),
-        ]);
+        return $this->render('@SonataAdmin/standard_layout.html.twig');
     }
 }

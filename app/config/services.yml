@@ -1,5 +1,7 @@
 parameters:
     #parameter_name: value
+      geekblog.header_name: "Content-Language"
+      geekblog.header_value: "en"
 
 services:
 
@@ -40,3 +42,15 @@ services:
             arguments: ["@request_stack"]
             tags:
                 - { name: knp_menu.menu, alias: main }
+
+     geekblog.response_listener:
+            class: Geek\BlogBundle\Listeners\setHeaderListener
+            tags:
+                - { name: kernel.event_listener, event: kernel.response }
+            arguments: [ '%geekblog.header_name%', '%geekblog.header_value%' ]
+
+     sonata.admin.category:
+             class: Geek\BlogBundle\Controller\Admin\CategoryAdminController
+             tags:
+                   - { name: sonata.admin, manager_type: orm, group: "Content", label: "Categories" }
+             arguments: [null, Geek\BlogBundle\Entity\Category, GeekBlogBundle:CategorieAdmin]

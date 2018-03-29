@@ -68,7 +68,7 @@
       </parameter>
       <parameter key="KnpMenuBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/vlad/Work/ghBlog/vendor/knplabs/knp-menu-bundle</parameter>
+        <parameter key="path">/home/vlad/Work/ghBlog/vendor/knplabs/knp-menu-bundle/src</parameter>
         <parameter key="namespace">Knp\Bundle\MenuBundle</parameter>
       </parameter>
       <parameter key="KnpPaginatorBundle" type="collection">
@@ -550,7 +550,7 @@
       <parameter key="console.command.doctrine_bundle_doctrinebundle_command_proxy_runsqldoctrinecommand">doctrine.query_sql_command</parameter>
       <parameter key="console.command.doctrine_bundle_doctrinebundle_command_proxy_updateschemadoctrinecommand">doctrine.schema_update_command</parameter>
       <parameter key="console.command.doctrine_bundle_doctrinebundle_command_proxy_validateschemacommand">doctrine.schema_validate_command</parameter>
-      <parameter key="console.command.sensiolabs_security_command_securitycheckercommand">console.command.sensiolabs_security_command_securitycheckercommand</parameter>
+      <parameter key="console.command.sensiolabs_security_command_securitycheckercommand">sensio_distribution.security_checker.command</parameter>
       <parameter key="console.command.symfony_bundle_webserverbundle_command_serverruncommand">web_server.command.server_run</parameter>
       <parameter key="console.command.symfony_bundle_webserverbundle_command_serverstartcommand">web_server.command.server_start</parameter>
       <parameter key="console.command.symfony_bundle_webserverbundle_command_serverstopcommand">web_server.command.server_stop</parameter>
@@ -598,6 +598,7 @@
       <parameter key="doctrine.query_sql_command">true</parameter>
       <parameter key="doctrine.schema_update_command">true</parameter>
       <parameter key="doctrine.schema_validate_command">true</parameter>
+      <parameter key="sensio_distribution.security_checker.command">true</parameter>
       <parameter key="web_server.command.server_run">true</parameter>
       <parameter key="web_server.command.server_start">true</parameter>
       <parameter key="web_server.command.server_stop">true</parameter>
@@ -605,7 +606,6 @@
       <parameter key="web_server.command.server_log">true</parameter>
       <parameter key="doctrine.fixtures_load_command">true</parameter>
     </parameter>
-    <parameter key="jms_serializer.form_error_handler.class">FOS\RestBundle\Serializer\Normalizer\FormErrorHandler</parameter>
   </parameters>
   <services>
     <service id="service_container" class="Symfony\Component\DependencyInjection\ContainerInterface" public="true" synthetic="true"/>
@@ -678,7 +678,9 @@
       <tag name="form.type"/>
     </service>
     <service id="Geek\BlogBundle\GeekBlogBundle" class="Geek\BlogBundle\GeekBlogBundle" public="false" autowire="true" autoconfigure="true"/>
-    <service id="Geek\BlogBundle\Menu\Builder" class="Geek\BlogBundle\Menu\Builder" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Geek\BlogBundle\Menu\Builder" class="Geek\BlogBundle\Menu\Builder" public="false" autowire="true" autoconfigure="true">
+      <argument type="service" id="knp_menu.factory"/>
+    </service>
     <service id="create_user.command" class="Geek\BlogBundle\Command\CreateUserCommand" public="false" autowire="true" autoconfigure="true">
       <tag name="console.command"/>
       <argument type="service" id="doctrine"/>
@@ -708,7 +710,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-50"/>
-      <argument type="service" id="service_locator._xa8mc2"/>
+      <argument type="service" id="service_locator.v.pr47h"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-100"/>
@@ -958,6 +960,7 @@
         <argument>Symfony\Component\Form\Extension\Validator\Type\UploadValidatorExtension</argument>
         <argument>Symfony\Component\Form\Extension\Csrf\Type\FormTypeCsrfExtension</argument>
         <argument>Symfony\Component\Form\Extension\DataCollector\Type\DataCollectorTypeExtension</argument>
+        <argument>Nelmio\ApiDocBundle\Form\Extension\DocumentationExtension</argument>
       </argument>
       <argument type="collection">
         <argument>Symfony\Component\Form\Extension\Validator\ValidatorTypeGuesser</argument>
@@ -1165,6 +1168,7 @@
           <argument type="service" id="form.type_extension.upload.validator"/>
           <argument type="service" id="form.type_extension.csrf"/>
           <argument type="service" id="form.type_extension.form.data_collector"/>
+          <argument type="service" id="Nelmio\ApiDocBundle\Form\Extension\DocumentationExtension"/>
         </argument>
         <argument key="Symfony\Component\Form\Extension\Core\Type\RepeatedType" type="iterator">
           <argument type="service" id="form.type_extension.repeated.validator"/>
@@ -1678,14 +1682,6 @@
       <call method="addListener">
         <argument>kernel.request</argument>
         <argument type="collection">
-          <argument type="service" id="knp_menu.listener.voters"/>
-          <argument>onKernelRequest</argument>
-        </argument>
-        <argument>0</argument>
-      </call>
-      <call method="addListener">
-        <argument>kernel.request</argument>
-        <argument type="collection">
           <argument type="service" id="knp_paginator.subscriber.sliding_pagination"/>
           <argument>onKernelRequest</argument>
         </argument>
@@ -1837,6 +1833,14 @@
       </call>
       <call method="addListener">
         <argument>kernel.request</argument>
+        <argument type="collection">
+          <argument type="service" id="debug.debug_handlers_listener"/>
+          <argument>configure</argument>
+        </argument>
+        <argument>2048</argument>
+      </call>
+      <call method="addListener">
+        <argument>console.command</argument>
         <argument type="collection">
           <argument type="service" id="debug.debug_handlers_listener"/>
           <argument>configure</argument>
@@ -2141,7 +2145,7 @@
       <tag name="routing.loader"/>
       <argument type="service" id="file_locator"/>
     </service>
-    <service id="routing.loader.glob" class="Symfony\Component\Config\Loader\GlobFileLoader" public="false">
+    <service id="routing.loader.glob" class="Symfony\Component\Routing\Loader\GlobFileLoader" public="false">
       <tag name="routing.loader"/>
       <argument type="service" id="file_locator"/>
     </service>
@@ -2240,11 +2244,12 @@
       </call>
     </service>
     <service id="annotations.dummy_registry" class="Doctrine\Common\Annotations\AnnotationRegistry" public="false">
-      <call method="registerLoader">
+      <call method="registerUniqueLoader">
         <argument>class_exists</argument>
       </call>
     </service>
     <service id="annotations.cached_reader" class="Doctrine\Common\Annotations\CachedReader" public="false">
+      <tag name="annotations.cached_reader"/>
       <argument type="service" id="annotations.reader"/>
       <argument type="service" id="1_ArrayCache~ddqymto"/>
       <argument>true</argument>
@@ -3094,6 +3099,9 @@
     <service id="twig" class="Twig\Environment" public="true">
       <argument type="service" id="twig.loader.filesystem"/>
       <argument type="collection">
+        <argument key="paths" type="collection">
+          <argument key="/home/vlad/Work/ghBlog/vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views">null</argument>
+        </argument>
         <argument key="debug">true</argument>
         <argument key="strict_variables">true</argument>
         <argument key="form_themes" type="collection">
@@ -3105,7 +3113,6 @@
         <argument key="cache">/home/vlad/Work/ghBlog/var/cache/dev/twig</argument>
         <argument key="charset">UTF-8</argument>
         <argument key="default_path">/home/vlad/Work/ghBlog/templates</argument>
-        <argument key="paths" type="collection"/>
         <argument key="date" type="collection">
           <argument key="format">F j, Y H:i</argument>
           <argument key="interval_format">%d days</argument>
@@ -3160,6 +3167,9 @@
         <argument type="service" id="twig.extension.weblink"/>
       </call>
       <call method="addExtension">
+        <argument type="service" id="twig.extension.dump"/>
+      </call>
+      <call method="addExtension">
         <argument type="service" id="doctrine.twig.doctrine_extension"/>
       </call>
       <call method="addExtension">
@@ -3170,9 +3180,6 @@
       </call>
       <call method="addExtension">
         <argument type="service" id="white_october_breadcrumbs.twig"/>
-      </call>
-      <call method="addExtension">
-        <argument type="service" id="twig.extension.dump"/>
       </call>
       <call method="addExtension">
         <argument type="service" id="twig.extension.webprofiler"/>
@@ -3207,6 +3214,7 @@
       <argument type="service" id="service_locator.c7_qahl.twig.cache_warmer"/>
       <argument type="service" id="templating.finder" on-invalid="ignore"/>
       <argument type="collection">
+        <argument key="/home/vlad/Work/ghBlog/vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views">null</argument>
         <argument key="/home/vlad/Work/ghBlog/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form">null</argument>
       </argument>
     </service>
@@ -3214,6 +3222,7 @@
       <argument type="service" id="kernel"/>
       <argument>/home/vlad/Work/ghBlog/app</argument>
       <argument type="collection">
+        <argument key="/home/vlad/Work/ghBlog/vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views">null</argument>
         <argument key="/home/vlad/Work/ghBlog/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form">null</argument>
       </argument>
     </service>
@@ -3227,6 +3236,9 @@
     <service id="twig.loader.native_filesystem" class="Twig\Loader\FilesystemLoader" public="false">
       <argument type="collection"/>
       <argument>/home/vlad/Work/ghBlog</argument>
+      <call method="addPath">
+        <argument>/home/vlad/Work/ghBlog/vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views</argument>
+      </call>
       <call method="addPath">
         <argument>/home/vlad/Work/ghBlog/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/views</argument>
         <argument>Framework</argument>
@@ -3268,11 +3280,11 @@
         <argument>!Doctrine</argument>
       </call>
       <call method="addPath">
-        <argument>/home/vlad/Work/ghBlog/vendor/knplabs/knp-menu-bundle/Resources/views</argument>
+        <argument>/home/vlad/Work/ghBlog/vendor/knplabs/knp-menu-bundle/src/Resources/views</argument>
         <argument>KnpMenu</argument>
       </call>
       <call method="addPath">
-        <argument>/home/vlad/Work/ghBlog/vendor/knplabs/knp-menu-bundle/Resources/views</argument>
+        <argument>/home/vlad/Work/ghBlog/vendor/knplabs/knp-menu-bundle/src/Resources/views</argument>
         <argument>!KnpMenu</argument>
       </call>
       <call method="addPath">
@@ -3436,6 +3448,9 @@
       <argument type="service" id="templating.name_parser"/>
       <argument>/home/vlad/Work/ghBlog</argument>
       <call method="addPath">
+        <argument>/home/vlad/Work/ghBlog/vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views</argument>
+      </call>
+      <call method="addPath">
         <argument>/home/vlad/Work/ghBlog/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/views</argument>
         <argument>Framework</argument>
       </call>
@@ -3476,11 +3491,11 @@
         <argument>!Doctrine</argument>
       </call>
       <call method="addPath">
-        <argument>/home/vlad/Work/ghBlog/vendor/knplabs/knp-menu-bundle/Resources/views</argument>
+        <argument>/home/vlad/Work/ghBlog/vendor/knplabs/knp-menu-bundle/src/Resources/views</argument>
         <argument>KnpMenu</argument>
       </call>
       <call method="addPath">
-        <argument>/home/vlad/Work/ghBlog/vendor/knplabs/knp-menu-bundle/Resources/views</argument>
+        <argument>/home/vlad/Work/ghBlog/vendor/knplabs/knp-menu-bundle/src/Resources/views</argument>
         <argument>!KnpMenu</argument>
       </call>
       <call method="addPath">
@@ -3537,9 +3552,6 @@
       <call method="addPath">
         <argument>/home/vlad/Work/ghBlog/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form</argument>
       </call>
-      <call method="addPath">
-        <argument>/home/vlad/Work/ghBlog/vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views</argument>
-      </call>
     </service>
     <service id="templating.engine.twig" class="Symfony\Bundle\TwigBundle\TwigEngine" public="false">
       <argument type="service" id="twig"/>
@@ -3589,8 +3601,8 @@
         <argument type="service" id="debug.log_processor"/>
       </call>
     </service>
-    <service id="monolog.activation_strategy.not_found" class="Symfony\Bridge\Monolog\Handler\FingersCrossed\NotFoundActivationStrategy"/>
-    <service id="monolog.handler.fingers_crossed.error_level_activation_strategy" class="Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy"/>
+    <service id="monolog.activation_strategy.not_found" class="Symfony\Bridge\Monolog\Handler\FingersCrossed\NotFoundActivationStrategy" abstract="true"/>
+    <service id="monolog.handler.fingers_crossed.error_level_activation_strategy" class="Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy" abstract="true"/>
     <service id="monolog.formatter.chrome_php" class="Monolog\Formatter\ChromePHPFormatter" public="false"/>
     <service id="monolog.formatter.gelf_message" class="Monolog\Formatter\GelfMessageFormatter" public="false"/>
     <service id="monolog.formatter.html" class="Monolog\Formatter\HtmlFormatter" public="false"/>
@@ -4063,17 +4075,17 @@
         <argument>Geek\BlogBundle\Entity</argument>
       </call>
     </service>
-    <service id="doctrine_cache.providers.doctrine.orm.default_metadata_cache" class="Doctrine\Common\Cache\ArrayCache">
+    <service id="doctrine_cache.providers.doctrine.orm.default_metadata_cache" class="Doctrine\Common\Cache\ArrayCache" public="true">
       <call method="setNamespace">
         <argument>sf_orm_default_b89348fc59f2ce4b74a8ec8d83d48b724bf17e27b0d6149add9d5572845634c8</argument>
       </call>
     </service>
-    <service id="doctrine_cache.providers.doctrine.orm.default_result_cache" class="Doctrine\Common\Cache\ArrayCache">
+    <service id="doctrine_cache.providers.doctrine.orm.default_result_cache" class="Doctrine\Common\Cache\ArrayCache" public="true">
       <call method="setNamespace">
         <argument>sf_orm_default_b89348fc59f2ce4b74a8ec8d83d48b724bf17e27b0d6149add9d5572845634c8</argument>
       </call>
     </service>
-    <service id="doctrine_cache.providers.doctrine.orm.default_query_cache" class="Doctrine\Common\Cache\ArrayCache">
+    <service id="doctrine_cache.providers.doctrine.orm.default_query_cache" class="Doctrine\Common\Cache\ArrayCache" public="true">
       <call method="setNamespace">
         <argument>sf_orm_default_b89348fc59f2ce4b74a8ec8d83d48b724bf17e27b0d6149add9d5572845634c8</argument>
       </call>
@@ -4183,7 +4195,7 @@
     <service id="framework_extra_bundle.argument_name_convertor" class="Sensio\Bundle\FrameworkExtraBundle\Request\ArgumentNameConverter" public="false">
       <argument type="service" id="argument_metadata_factory"/>
     </service>
-    <service id="knp_menu.factory" class="Knp\Menu\MenuFactory">
+    <service id="knp_menu.factory" class="Knp\Menu\MenuFactory" public="true">
       <call method="addExtension">
         <argument type="service" id="knp_menu.factory_extension.routing"/>
         <argument>0</argument>
@@ -4199,29 +4211,22 @@
       <argument type="service" id="knp_menu.manipulator"/>
       <argument type="service" id="knp_menu.matcher"/>
     </service>
-    <service id="knp_menu.matcher" class="Knp\Menu\Matcher\Matcher">
-      <call method="addVoter">
+    <service id="knp_menu.matcher" class="Knp\Menu\Matcher\Matcher" public="true">
+      <argument type="iterator">
         <argument type="service" id="knp_menu.voter.router"/>
-      </call>
+      </argument>
     </service>
     <service id="knp_menu.menu_provider.chain" class="Knp\Menu\Provider\ChainProvider" public="false">
-      <argument type="collection">
-        <argument type="service" id="knp_menu.menu_provider.container_aware"/>
-        <argument type="service" id="knp_menu.menu_provider.builder_service"/>
+      <argument type="iterator">
+        <argument type="service" id="knp_menu.menu_provider.lazy"/>
         <argument type="service" id="knp_menu.menu_provider.builder_alias"/>
       </argument>
     </service>
-    <service id="knp_menu.menu_provider.container_aware" class="Knp\Bundle\MenuBundle\Provider\ContainerAwareProvider" public="false">
+    <service id="knp_menu.menu_provider.lazy" class="Knp\Menu\Provider\LazyProvider" public="false">
       <tag name="knp_menu.provider"/>
-      <argument type="service" id="service_container"/>
       <argument type="collection">
-        <argument key="main">app.main_menu</argument>
+        <argument key="main" type="service" id="app.main_menu"/>
       </argument>
-    </service>
-    <service id="knp_menu.menu_provider.builder_service" class="Knp\Bundle\MenuBundle\Provider\BuilderServiceProvider" public="false">
-      <tag name="knp_menu.provider"/>
-      <argument type="service" id="service_container"/>
-      <argument type="collection"/>
     </service>
     <service id="knp_menu.menu_provider.builder_alias" class="Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider" public="false">
       <tag name="knp_menu.provider"/>
@@ -4229,13 +4234,9 @@
       <argument type="service" id="service_container"/>
       <argument type="service" id="knp_menu.factory"/>
     </service>
-    <service id="knp_menu.renderer_provider" class="Knp\Bundle\MenuBundle\Renderer\ContainerAwareProvider">
-      <argument type="service" id="service_container"/>
+    <service id="knp_menu.renderer_provider" class="Knp\Menu\Renderer\PsrProvider">
+      <argument type="service" id="service_locator.hskmc8u"/>
       <argument>twig</argument>
-      <argument type="collection">
-        <argument key="list">knp_menu.renderer.list</argument>
-        <argument key="twig">knp_menu.renderer.twig</argument>
-      </argument>
     </service>
     <service id="knp_menu.renderer.list" class="Knp\Menu\Renderer\ListRenderer">
       <tag name="knp_menu.renderer" alias="list"/>
@@ -4243,15 +4244,9 @@
       <argument type="collection"/>
       <argument>UTF-8</argument>
     </service>
-    <service id="knp_menu.listener.voters" class="Knp\Bundle\MenuBundle\EventListener\VoterInitializerListener">
-      <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest"/>
-      <tag name="container.hot_path"/>
-      <call method="addVoter">
-        <argument type="service" id="knp_menu.voter.router"/>
-      </call>
-    </service>
     <service id="knp_menu.voter.router" class="Knp\Menu\Matcher\Voter\RouteVoter">
-      <tag name="knp_menu.voter" request="1"/>
+      <tag name="knp_menu.voter"/>
+      <argument type="service" id="request_stack"/>
     </service>
     <service id="knp_menu.manipulator" class="Knp\Menu\Util\MenuManipulator" public="false"/>
     <service id="knp_menu.twig.extension" class="Knp\Menu\Twig\MenuExtension" public="false">
@@ -4508,6 +4503,9 @@
       <argument type="service" id="property_info"/>
       <argument type="service" id="annotations.cached_reader"/>
     </service>
+    <service id="Nelmio\ApiDocBundle\Form\Extension\DocumentationExtension" class="Nelmio\ApiDocBundle\Form\Extension\DocumentationExtension">
+      <tag name="form.type_extension" extended_type="Symfony\Component\Form\Extension\Core\Type\FormType" extended-type="Symfony\Component\Form\Extension\Core\Type\FormType"/>
+    </service>
     <service id="nelmio_api_doc.generator.default" class="Nelmio\ApiDocBundle\ApiDocGenerator" public="false">
       <argument type="tagged" tag="nelmio_api_doc.describer.default"/>
       <argument type="tagged" tag="nelmio_api_doc.model_describer"/>
@@ -4521,7 +4519,10 @@
       <factory method="filter">
         <service class="Nelmio\ApiDocBundle\Routing\FilteredRouteCollectionBuilder">
           <argument type="collection">
-            <argument>^/api(?!/doc$)</argument>
+            <argument key="path_patterns" type="collection">
+              <argument>^/api(?!/doc$)</argument>
+            </argument>
+            <argument key="host_patterns" type="collection"/>
           </argument>
         </service>
       </factory>
@@ -4641,13 +4642,16 @@
       <argument>2</argument>
       <argument>bottom</argument>
       <argument type="service" id="router.default" on-invalid="ignore"/>
-      <argument>^/(app(_[\w]+)?\.php/)?_wdt</argument>
+      <argument>^/((index|app(_[\w]+)?)\.php/)?_wdt</argument>
       <argument type="service" id="web_profiler.csp.handler"/>
     </service>
     <service id="sensio_distribution.security_checker" class="SensioLabs\Security\SecurityChecker"/>
     <service id="sensio_distribution.security_checker.command" class="SensioLabs\Security\Command\SecurityCheckerCommand">
       <tag name="console.command"/>
       <argument type="service" id="sensio_distribution.security_checker"/>
+      <call method="setName">
+        <argument>security:check</argument>
+      </call>
     </service>
     <service id="web_server.command.server_run" class="Symfony\Bundle\WebServerBundle\Command\ServerRunCommand" public="false">
       <tag name="console.command" command="server:run"/>
@@ -4756,35 +4760,19 @@
         <argument key="viewhandler" type="service" id="fos_rest.view_handler.default" on-invalid="ignore"/>
       </argument>
     </service>
-    <service id="service_locator.drabo.f" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator._6_nq1t" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection"/>
     </service>
-    <service id="service_locator.sow4d.c" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.qpfrbhq" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection"/>
     </service>
-    <service id="service_locator.ptbxkop" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.vhey4dz" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection"/>
     </service>
-    <service id="service_locator.gbmx0rt" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator"/>
-      <argument type="collection"/>
-    </service>
-    <service id="service_locator.imqedyj" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator"/>
-      <argument type="collection"/>
-    </service>
-    <service id="service_locator.xzgw5sz" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator"/>
-      <argument type="collection"/>
-    </service>
-    <service id="service_locator.npe0ziq" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator"/>
-      <argument type="collection"/>
-    </service>
-    <service id="service_locator.bfgo2nl" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.gr63nb2" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection"/>
     </service>
@@ -4792,23 +4780,11 @@
       <tag name="container.service_locator"/>
       <argument type="collection"/>
     </service>
-    <service id="service_locator.qzt2bcv" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator"/>
-      <argument type="collection"/>
-    </service>
-    <service id="service_locator.httlyab" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator"/>
-      <argument type="collection"/>
-    </service>
-    <service id="service_locator.cipcu20" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator"/>
-      <argument type="collection"/>
-    </service>
     <service id="service_locator.zjnypfw" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection"/>
     </service>
-    <service id="service_locator._xa8mc2" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.v.pr47h" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="Geek\BlogBundle\Controller\Api\BaseRestController:setViewHandler" type="service" id="service_locator.r15f9hk"/>
@@ -4820,7 +4796,7 @@
       </argument>
     </service>
     <service id="console.command_loader" class="Symfony\Component\Console\CommandLoader\ContainerCommandLoader" public="true">
-      <argument type="service" id="service_locator.6yov_jw"/>
+      <argument type="service" id="service_locator.8ahl0sj"/>
       <argument type="collection">
         <argument key="about">console.command.about</argument>
         <argument key="assets:install">console.command.assets_install</argument>
@@ -4861,6 +4837,7 @@
         <argument key="doctrine:query:sql">doctrine.query_sql_command</argument>
         <argument key="doctrine:schema:update">doctrine.schema_update_command</argument>
         <argument key="doctrine:schema:validate">doctrine.schema_validate_command</argument>
+        <argument key="security:check">sensio_distribution.security_checker.command</argument>
         <argument key="server:run">web_server.command.server_run</argument>
         <argument key="server:start">web_server.command.server_start</argument>
         <argument key="server:stop">web_server.command.server_stop</argument>
@@ -4869,7 +4846,7 @@
         <argument key="doctrine:fixtures:load">doctrine.fixtures_load_command</argument>
       </argument>
     </service>
-    <service id="service_locator.6yov_jw" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.8ahl0sj" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="console.command.about" type="service" id="console.command.about"/>
@@ -4910,6 +4887,7 @@
         <argument key="doctrine.schema_update_command" type="service" id="doctrine.schema_update_command"/>
         <argument key="doctrine.schema_validate_command" type="service" id="doctrine.schema_validate_command"/>
         <argument key="security.command.user_password_encoder" type="service" id="security.command.user_password_encoder"/>
+        <argument key="sensio_distribution.security_checker.command" type="service" id="sensio_distribution.security_checker.command"/>
         <argument key="twig.command.debug" type="service" id="twig.command.debug"/>
         <argument key="twig.command.lint" type="service" id="twig.command.lint"/>
         <argument key="web_server.command.server_log" type="service" id="web_server.command.server_log"/>
@@ -5066,6 +5044,13 @@
     <service id="service_locator.sr6ctxe" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection"/>
+    </service>
+    <service id="service_locator.hskmc8u" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="list" type="service" id="knp_menu.renderer.list"/>
+        <argument key="twig" type="service" id="knp_menu.renderer.twig"/>
+      </argument>
     </service>
     <service id="nelmio_api_doc.model_describers.form" class="Nelmio\ApiDocBundle\ModelDescriber\FormModelDescriber" public="false">
       <tag name="nelmio_api_doc.model_describer" priority="100"/>
@@ -5292,18 +5277,21 @@
     <service id="Doctrine\ORM\EntityManagerInterface" alias="doctrine.orm.default_entity_manager" public="false"/>
     <service id="doctrine.orm.metadata.annotation_reader" alias="annotations.cached_reader" public="false"/>
     <service id="doctrine.orm.entity_manager" alias="doctrine.orm.default_entity_manager" public="true"/>
-    <service id="doctrine.orm.default_metadata_cache" alias="doctrine_cache.providers.doctrine.orm.default_metadata_cache"/>
-    <service id="doctrine.orm.default_result_cache" alias="doctrine_cache.providers.doctrine.orm.default_result_cache"/>
-    <service id="doctrine.orm.default_query_cache" alias="doctrine_cache.providers.doctrine.orm.default_query_cache"/>
+    <service id="doctrine.orm.default_metadata_cache" alias="doctrine_cache.providers.doctrine.orm.default_metadata_cache" public="true"/>
+    <service id="doctrine.orm.default_result_cache" alias="doctrine_cache.providers.doctrine.orm.default_result_cache" public="true"/>
+    <service id="doctrine.orm.default_query_cache" alias="doctrine_cache.providers.doctrine.orm.default_query_cache" public="true"/>
     <service id="doctrine.orm.default_entity_manager.event_manager" alias="doctrine.dbal.default_connection.event_manager" public="false"/>
     <service id="sensio_framework_extra.converter.doctrine.orm.expression_language" alias="sensio_framework_extra.converter.doctrine.orm.expression_language.default" public="false"/>
     <service id="sensio_framework_extra.security.expression_language" alias="sensio_framework_extra.security.expression_language.default" public="false"/>
+    <service id="Knp\Menu\FactoryInterface" alias="knp_menu.factory" public="false"/>
+    <service id="Knp\Menu\Matcher\MatcherInterface" alias="knp_menu.matcher" public="false"/>
+    <service id="Knp\Menu\Util\MenuManipulator" alias="knp_menu.manipulator" public="false"/>
     <service id="Knp\Component\Pager\PaginatorInterface" alias="knp_paginator"/>
     <service id="FOS\RestBundle\View\ViewHandlerInterface" alias="fos_rest.view_handler.default"/>
     <service id="FOS\RestBundle\Request\ParamFetcherInterface" alias="fos_rest.request.param_fetcher"/>
     <service id="fos_rest.router" alias="router.default"/>
     <service id="fos_rest.templating" alias="templating.engine.twig"/>
-    <service id="fos_rest.view_handler" alias="fos_rest.view_handler.default"/>
+    <service id="fos_rest.view_handler" alias="fos_rest.view_handler.default" public="true"/>
     <service id="fos_rest.inflector" alias="fos_rest.inflector.doctrine"/>
     <service id="nelmio_api_doc.generator" alias="nelmio_api_doc.generator.default" public="true"/>
     <service id="Symfony\Component\Templating\EngineInterface" alias="templating.engine.twig" public="false"/>
@@ -5314,7 +5302,6 @@
     <service id="console.command.doctrine_bundle_doctrinecachebundle_command_deletecommand" alias="doctrine_cache.delete_command" public="true"/>
     <service id="console.command.doctrine_bundle_doctrinecachebundle_command_flushcommand" alias="doctrine_cache.flush_command" public="true"/>
     <service id="console.command.doctrine_bundle_doctrinecachebundle_command_statscommand" alias="doctrine_cache.stats_command" public="true"/>
-    <service id="console.command.sensiolabs_security_command_securitycheckercommand" alias="sensio_distribution.security_checker.command" public="true"/>
     <service id="twig.loader" alias="twig.loader.filesystem"/>
     <service id="knp_menu.menu_provider" alias="knp_menu.menu_provider.chain"/>
     <service id="fos_rest.serializer" alias="fos_rest.serializer.symfony"/>
