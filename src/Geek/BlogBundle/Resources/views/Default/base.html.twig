@@ -14,12 +14,6 @@
             <nav class="navbar navbar-inverse navbar-fixed-top">
                 <div class="container">
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar">ffff</span>
-                            <span class="icon-bar">ggg</span>
-                            <span class="icon-bar">ddd</span>
-                        </button>
                         <a class="navbar-brand" href="{{ path('homepage') }}">GeekBlog</a>
                     </div>
 
@@ -41,12 +35,12 @@
                            <form class="navbar-form navbar-right">
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                 <a class="btn btn-default pull-left" href="{{ path("user_room") }}">
-                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> User room </a>
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>  {{ "User room" | trans }} </a>
                                 <a class="btn btn-default pull-left" href="{{ path("logout") }}">
-                                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> SignOut </a>
+                                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> {{ "SignOut" | trans }} </a>
                             {% else %}
                                 <a class="btn btn-default pull-left" href="{{ path("login") }}">
-                                    <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> SignIn </a>
+                                    <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> {{ "SignIn" | trans }} </a>
                             {% endif %}
                            </form>
                     </div>
@@ -56,6 +50,7 @@
     </div>
     <div class="col-md-2">
         <div class="well">
+            <h3 align="center">{{ "Menu" | trans }}</h3>
         {% block menu %}
             {{ knp_menu_render('main') }}
         {% endblock %}
@@ -76,37 +71,37 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-3">
-                            <h5>Get started</h5>
+                            <h5><b>{{ "Get started" | trans }}</b></h5>
                             <ul>
-                                <li><a href="{{ path('homepage') }}">Home</a></li>
-                                <li><a href="{{ path('login') }}">Sign up</a></li>
-                                <li><a href="{{ path('register') }}">Registration</a></li>
+                                <li><a href="{{ path('homepage') }}">{{ "Home" | trans }}</a></li>
+                                <li><a href="{{ path('login') }}">{{ "Sign up" | trans }}</a></li>
+                                <li><a href="{{ path('register') }}">{{ "Registration" | trans }}</a></li>
                             </ul>
                         </div>
                         <div class="col-sm-3">
-                            <h5>About us</h5>
+                            <h5><b>{{ "About us" | trans }}</b></h5>
                             <ul>
-                                <li><a href="#">Company Information</a></li>
-                                <li><a href="#">Contact us</a></li>
-                                <li><a href="#">Reviews</a></li>
+                                <li><a href="#">{{ "Company Information" | trans }}</a></li>
+                                <li><a href="#">{{ "Contact us" | trans }}</a></li>
+                                <li><a href="#">{{ "Reviews" | trans }}</a></li>
                             </ul>
                         </div>
                         <div class="col-sm-3">
-                            <h5>Support</h5>
+                            <h5><b>{{ "Support" | trans }}</b></h5>
                             <ul>
-                                <li><a href="#">FAQ</a></li>
-                                <li><a href="#">Help desk</a></li>
-                                <li><a href="#">Forums</a></li>
+                                <li><a href="#">{{ "FAQ" | trans }}</a></li>
+                                <li><a href="#">{{ "Help desk" | trans }}</a></li>
+                                <li><a href="#">{{ "Forums" | trans }}</a></li>
                             </ul>
                         </div>
                         <div class="col-sm-3 info">
-                            <h5>Information</h5>
-                            <p> This blog was created using the symfony magic :) </p>
+                            <h5><b>{{ "Information" | trans }}</b></h5>
+                            <p> {{ "This blog was created using the symfony magic :)" | trans }} </p>
                         </div>
                     </div>
                     <div class="second-bar">
                         <div class="container" align="center">
-                            <h5 class="logo"><a> Created with the support of the best GeekHub teachers!<br> &copy 2018 </a></h5>
+                            <h5 class="logo"><a> {{ "Created with the support of the best GeekHub teachers!" | trans }}<br> &copy 2018 </a></h5>
                         </div>
                     </div>
                 </div>
