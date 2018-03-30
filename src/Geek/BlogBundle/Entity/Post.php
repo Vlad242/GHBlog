@@ -347,10 +347,27 @@ class Post
      */
     public function isLiked(User $user)
     {
-        if ($this->likes->contains($user)){
+        if ($this->likes->contains($user))
+        {
             return true;
         }
         return false;
+    }
+
+    /**
+     * @param Tag $tag
+     * @return bool
+     */
+    public function hasTag(Tag $tag)
+    {
+        if ($this->tags->contains($tag))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 

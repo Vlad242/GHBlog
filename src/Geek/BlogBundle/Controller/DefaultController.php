@@ -5,6 +5,7 @@ namespace Geek\BlogBundle\Controller;
 use Geek\BlogBundle\Entity\User;
 use Geek\BlogBundle\Form\NewUserType;
 use Geek\BlogBundle\Form\SearchType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,9 +25,9 @@ class DefaultController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function redirectAction(){
-        if ($this->isGranted('ROLE_ADMIN')) {
-            return $this->redirectToRoute('admin_room');
-        }
+//        if ($this->isGranted('ROLE_ADMIN')) {
+//            return $this->redirectToRoute('admin_room');
+//        }
 
         return $this->redirectToRoute('user_room');
     }
@@ -132,4 +133,19 @@ class DefaultController extends Controller
             return $this->render('@GeekBlog/Post/postByString.html.twig', ['pagination' => $pagination, 'str' => $str]);
         }
     }
+
+    /**
+     * @Route("locale/{locale}", name="locale")
+     * @param Request $request
+     * @param $locale
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+   public function setLocaleAction(Request $request, $locale)
+   {
+       $request->attributes->set('_locale', $locale);
+       $referer = $request->headers->get('referer');
+       $request->getSession()->set('_locale', $locale);
+       return $this->redirect($referer);
+   }
+
 }
