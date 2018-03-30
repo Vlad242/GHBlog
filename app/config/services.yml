@@ -31,6 +31,12 @@ services:
                 - "@doctrine"
                 - "@security.password_encoder"
 
+     send_messages.command:
+            class: Geek\BlogBundle\Command\SendMessagesCommand
+            arguments:
+                - "@doctrine"
+                - "@swiftmailer.mailer"
+
      app.menu_builder:
             class: Geek\BlogBundle\Menu\Builder
             arguments: ["@knp_menu.factory"]

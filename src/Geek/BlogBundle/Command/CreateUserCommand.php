@@ -37,19 +37,17 @@ class CreateUserCommand extends Command
     {
         $user = new User();
 
-        $user->setName('admin');
-        $user->setUsername('admin');
-        $user->setRoles('ROLE_ADMIN');
-        $user->setLocked(false);
-        $user->setEnabled(true);
-        $plainPassword = '0000';
+        $user->setName('Vlad Kravchenko')
+            ->setUsername('Vlad')
+            ->setEmail('Vlad242@i.ua');
+        $plainPassword = 'Vlad';
         $encoded = $this->encoder->encodePassword($user, $plainPassword);
         $user->setPassword($encoded);
 
         $this->em->getManager()->persist($user);
         $this->em->getManager()->flush();
 
-        $output->writeln('success');
+        $output->writeln('success!!');
         return true;
     }
 }

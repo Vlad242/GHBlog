@@ -104,4 +104,22 @@ class PostRepository extends EntityRepository
             ])
             ->getQuery()->getResult();
     }
+
+
+    /**
+     * @param User $user
+     * @param $date
+     * @return \Doctrine\ORM\Query|Post[]
+     */
+    public function findForSend(User $user,\DateTime $date)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.user = :user')
+            ->andWhere('p.created >= :date')
+            ->setParameters([
+                'user' => $user,
+                'date' => $date
+            ])
+            ->getQuery();
+    }
 }

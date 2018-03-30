@@ -169,6 +169,8 @@
     <parameter key="mailer_host">smtp.gmail.com</parameter>
     <parameter key="mailer_user">vibe.x.mini@gmail.com</parameter>
     <parameter key="mailer_password">Vk00242300Vk</parameter>
+    <parameter key="port">465</parameter>
+    <parameter key="encryption">ssl</parameter>
     <parameter key="secret">ThisTokenIsNotSoSecretChangeIt</parameter>
     <parameter key="geekblog.header_name">Content-Language</parameter>
     <parameter key="geekblog.header_value">hihi</parameter>
@@ -743,7 +745,9 @@
     </parameter>
     <parameter key="console.command.ids" type="collection">
       <parameter key="console.command.geek_blogbundle_command_createusercommand">console.command.geek_blogbundle_command_createusercommand</parameter>
+      <parameter key="console.command.geek_blogbundle_command_sendmessagescommand">console.command.geek_blogbundle_command_sendmessagescommand</parameter>
       <parameter key="console.command.geek_blogbundle_command_createusercommand_create_user.command">console.command.geek_blogbundle_command_createusercommand_create_user.command</parameter>
+      <parameter key="console.command.geek_blogbundle_command_sendmessagescommand_send_messages.command">console.command.geek_blogbundle_command_sendmessagescommand_send_messages.command</parameter>
       <parameter key="console.command.symfony_bundle_frameworkbundle_command_aboutcommand">console.command.about</parameter>
       <parameter key="console.command.symfony_bundle_frameworkbundle_command_assetsinstallcommand">console.command.assets_install</parameter>
       <parameter key="console.command.symfony_bundle_frameworkbundle_command_cacheclearcommand">console.command.cache_clear</parameter>
@@ -918,6 +922,11 @@
       <argument type="service" id="doctrine"/>
       <argument type="service" id="security.user_password_encoder.generic"/>
     </service>
+    <service id="Geek\BlogBundle\Command\SendMessagesCommand" class="Geek\BlogBundle\Command\SendMessagesCommand" public="false" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <argument type="service" id="doctrine"/>
+      <argument type="service" id="swiftmailer.mailer.default"/>
+    </service>
     <service id="Geek\BlogBundle\Controller\Api\BaseRestController" class="Geek\BlogBundle\Controller\Api\BaseRestController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
     </service>
@@ -984,10 +993,6 @@
       <tag name="container.hot_path"/>
     </service>
     <service id="Geek\BlogBundle\Listeners\SetHeaderListener" class="Geek\BlogBundle\Listeners\SetHeaderListener" public="false" autowire="true" autoconfigure="true"/>
-    <service id="Geek\BlogBundle\Listeners\UserLocaleSubscriber" class="Geek\BlogBundle\Listeners\UserLocaleSubscriber" public="false" autowire="true" autoconfigure="true">
-      <tag name="kernel.event_subscriber"/>
-      <argument type="service" id="session"/>
-    </service>
     <service id="Geek\BlogBundle\Menu\Builder" class="Geek\BlogBundle\Menu\Builder" public="false" autowire="true" autoconfigure="true">
       <argument type="service" id="knp_menu.factory"/>
     </service>
@@ -995,6 +1000,11 @@
       <tag name="console.command"/>
       <argument type="service" id="doctrine"/>
       <argument type="service" id="security.user_password_encoder.generic"/>
+    </service>
+    <service id="send_messages.command" class="Geek\BlogBundle\Command\SendMessagesCommand" public="false" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <argument type="service" id="doctrine"/>
+      <argument type="service" id="swiftmailer.mailer.default"/>
     </service>
     <service id="app.menu_builder" class="Geek\BlogBundle\Menu\Builder" public="false" autowire="true" autoconfigure="true">
       <argument type="service" id="knp_menu.factory"/>
@@ -2811,14 +2821,6 @@
         <argument>20</argument>
       </call>
       <call method="addListener">
-        <argument>security.interactive_login</argument>
-        <argument type="collection">
-          <argument type="service" id="Geek\BlogBundle\Listeners\UserLocaleSubscriber"/>
-          <argument>onInteractiveLogin</argument>
-        </argument>
-        <argument>15</argument>
-      </call>
-      <call method="addListener">
         <argument>kernel.response</argument>
         <argument type="collection">
           <argument type="service" id="response_listener"/>
@@ -2972,6 +2974,14 @@
       </call>
       <call method="addListener">
         <argument>kernel.request</argument>
+        <argument type="collection">
+          <argument type="service" id="debug.debug_handlers_listener"/>
+          <argument>configure</argument>
+        </argument>
+        <argument>2048</argument>
+      </call>
+      <call method="addListener">
+        <argument>console.command</argument>
         <argument type="collection">
           <argument type="service" id="debug.debug_handlers_listener"/>
           <argument>configure</argument>
@@ -6873,6 +6883,8 @@
     </service>
     <service id="instanceof.Symfony\Component\Console\Command\Command.0.Geek\BlogBundle\Command\CreateUserCommand" class="Geek\BlogBundle\Command\CreateUserCommand" public="false" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.Geek\BlogBundle\Command\CreateUserCommand" class="Geek\BlogBundle\Command\CreateUserCommand" public="false" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Symfony\Component\Console\Command\Command.0.Geek\BlogBundle\Command\SendMessagesCommand" class="Geek\BlogBundle\Command\SendMessagesCommand" public="false" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.Geek\BlogBundle\Command\SendMessagesCommand" class="Geek\BlogBundle\Command\SendMessagesCommand" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.Geek\BlogBundle\Controller\Api\BaseRestController" class="Geek\BlogBundle\Controller\Api\BaseRestController" public="true" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.Geek\BlogBundle\Controller\Api\BaseRestController" class="Geek\BlogBundle\Controller\Api\BaseRestController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.Geek\BlogBundle\Controller\Api\CategoryController" class="Geek\BlogBundle\Controller\Api\CategoryController" public="true" autowire="true" abstract="true"/>
@@ -6913,10 +6925,10 @@
     <service id="abstract.instanceof.Geek\BlogBundle\Form\UpdatePostType" class="Geek\BlogBundle\Form\UpdatePostType" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Component\EventDispatcher\EventSubscriberInterface.0.Geek\BlogBundle\Listeners\LocaleSubscriber" class="Geek\BlogBundle\Listeners\LocaleSubscriber" public="false" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.Geek\BlogBundle\Listeners\LocaleSubscriber" class="Geek\BlogBundle\Listeners\LocaleSubscriber" public="false" autowire="true" autoconfigure="true" abstract="true"/>
-    <service id="instanceof.Symfony\Component\EventDispatcher\EventSubscriberInterface.0.Geek\BlogBundle\Listeners\UserLocaleSubscriber" class="Geek\BlogBundle\Listeners\UserLocaleSubscriber" public="false" autowire="true" abstract="true"/>
-    <service id="abstract.instanceof.Geek\BlogBundle\Listeners\UserLocaleSubscriber" class="Geek\BlogBundle\Listeners\UserLocaleSubscriber" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Component\Console\Command\Command.0.create_user.command" class="Geek\BlogBundle\Command\CreateUserCommand" public="false" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.create_user.command" class="Geek\BlogBundle\Command\CreateUserCommand" public="false" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Symfony\Component\Console\Command\Command.0.send_messages.command" class="Geek\BlogBundle\Command\SendMessagesCommand" public="false" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.send_messages.command" class="Geek\BlogBundle\Command\SendMessagesCommand" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="service_locator.r15f9hk" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -7709,7 +7721,9 @@
     <service id="Symfony\Component\Templating\EngineInterface" alias="templating.engine.twig" public="false"/>
     <service id="Symfony\Bundle\FrameworkBundle\Templating\EngineInterface" alias="templating.engine.twig" public="false"/>
     <service id="console.command.geek_blogbundle_command_createusercommand" alias="Geek\BlogBundle\Command\CreateUserCommand" public="true"/>
+    <service id="console.command.geek_blogbundle_command_sendmessagescommand" alias="Geek\BlogBundle\Command\SendMessagesCommand" public="true"/>
     <service id="console.command.geek_blogbundle_command_createusercommand_create_user.command" alias="create_user.command" public="true"/>
+    <service id="console.command.geek_blogbundle_command_sendmessagescommand_send_messages.command" alias="send_messages.command" public="true"/>
     <service id="console.command.doctrine_bundle_doctrinecachebundle_command_containscommand" alias="doctrine_cache.contains_command" public="true"/>
     <service id="console.command.doctrine_bundle_doctrinecachebundle_command_deletecommand" alias="doctrine_cache.delete_command" public="true"/>
     <service id="console.command.doctrine_bundle_doctrinecachebundle_command_flushcommand" alias="doctrine_cache.flush_command" public="true"/>
