@@ -167,10 +167,8 @@
     <parameter key="database_password">00242300</parameter>
     <parameter key="mailer_transport">smtp</parameter>
     <parameter key="mailer_host">smtp.gmail.com</parameter>
-    <parameter key="mailer_user">vibe.x.mini@gmail.com</parameter>
-    <parameter key="mailer_password">Vk00242300Vk</parameter>
-    <parameter key="port">465</parameter>
-    <parameter key="encryption">ssl</parameter>
+    <parameter key="mailer_user">lingvoschool.ch@gmail.com</parameter>
+    <parameter key="mailer_password">Lingvo2017D</parameter>
     <parameter key="secret">ThisTokenIsNotSoSecretChangeIt</parameter>
     <parameter key="geekblog.header_name">Content-Language</parameter>
     <parameter key="geekblog.header_value">hihi</parameter>
@@ -282,8 +280,8 @@
     <parameter key="swiftmailer.mailer.default.transport.smtp.encryption">null</parameter>
     <parameter key="swiftmailer.mailer.default.transport.smtp.port">25</parameter>
     <parameter key="swiftmailer.mailer.default.transport.smtp.host">smtp.gmail.com</parameter>
-    <parameter key="swiftmailer.mailer.default.transport.smtp.username">vibe.x.mini@gmail.com</parameter>
-    <parameter key="swiftmailer.mailer.default.transport.smtp.password">Vk00242300Vk</parameter>
+    <parameter key="swiftmailer.mailer.default.transport.smtp.username">lingvoschool.ch@gmail.com</parameter>
+    <parameter key="swiftmailer.mailer.default.transport.smtp.password">Lingvo2017D</parameter>
     <parameter key="swiftmailer.mailer.default.transport.smtp.auth_mode">null</parameter>
     <parameter key="swiftmailer.mailer.default.transport.smtp.timeout">30</parameter>
     <parameter key="swiftmailer.mailer.default.transport.smtp.source_ip">null</parameter>
@@ -2981,6 +2979,14 @@
         <argument>2048</argument>
       </call>
       <call method="addListener">
+        <argument>console.command</argument>
+        <argument type="collection">
+          <argument type="service" id="debug.debug_handlers_listener"/>
+          <argument>configure</argument>
+        </argument>
+        <argument>2048</argument>
+      </call>
+      <call method="addListener">
         <argument>kernel.request</argument>
         <argument type="collection">
           <argument type="service" id="router_listener"/>
@@ -4539,9 +4545,6 @@
         <argument>!WebProfiler</argument>
       </call>
       <call method="addPath">
-        <argument>/home/vlad/Work/ghBlog/app/Resources/views</argument>
-      </call>
-      <call method="addPath">
         <argument>/home/vlad/Work/ghBlog/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form</argument>
       </call>
     </service>
@@ -4782,9 +4785,6 @@
         <argument>!WebProfiler</argument>
       </call>
       <call method="addPath">
-        <argument>/home/vlad/Work/ghBlog/app/Resources/views</argument>
-      </call>
-      <call method="addPath">
         <argument>/home/vlad/Work/ghBlog/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form</argument>
       </call>
     </service>
@@ -4924,10 +4924,10 @@
         <argument type="service" id="3_Swift_Transport_Esmtp_Auth_PlainAuthenticator~j0oi7mz"/>
       </argument>
       <call method="setUsername">
-        <argument>vibe.x.mini@gmail.com</argument>
+        <argument>lingvoschool.ch@gmail.com</argument>
       </call>
       <call method="setPassword">
-        <argument>Vk00242300Vk</argument>
+        <argument>Lingvo2017D</argument>
       </call>
       <call method="setAuthMode">
         <argument>null</argument>
